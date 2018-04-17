@@ -1,3 +1,4 @@
+
 #include <IRControl.h>
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
@@ -201,15 +202,10 @@ void backup()
 
 void turnRight()
 {
-   for (long j=0; j<20000; j++)
-   {
-      mot1.forward(74);
-      mot2.forward(76);
-   }
-   for (long j=0; j<32000; j++)
-   {
+    boolean moved =false;
+   while((ir1.isBlack() == 1) && (ir1.isBlack() == 1)){
       mot1.forward(70);
-      mot2.reverse(70);
+      mot2.forward(70);
    }
 }
 
