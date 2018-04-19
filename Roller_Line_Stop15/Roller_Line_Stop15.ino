@@ -1,4 +1,3 @@
-
 #include <IRControl.h>
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
@@ -7,7 +6,7 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
-// April 29th - Started as Yom-Pom1 - Basic right turn code when an obstacle is detected. (Same as Roller_Line_Stop2.ino)
+// April 29th - Started as Yom-Pom1 - Basic right turn code when an obstacle is detected. (Same as Roller_Line_Stop2.ino) howdy
 // April 30th - Roller_Line_Stop3 - First major coding attempt.  This code can't currently
 //              deal with turning into an obstacle which we will definitely need to deal with
 //              (But for a plan on how to deal with this, see the notes in the black/black
@@ -202,10 +201,15 @@ void backup()
 
 void turnRight()
 {
-    boolean moved =false;
-   while((ir1.isBlack() == 1) && (ir1.isBlack() == 1)){
+   for (long j=0; j<20000; j++)
+   {
+      mot1.forward(74);
+      mot2.forward(76);
+   }
+   for (long j=0; j<32000; j++)
+   {
       mot1.forward(70);
-      mot2.forward(70);
+      mot2.reverse(70);
    }
 }
 
