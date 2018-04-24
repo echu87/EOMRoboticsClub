@@ -34,10 +34,10 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
-IRControl ir1(0);
-IRControl ir2(1);
-MotorControl mot1(1);
-MotorControl mot2(2);
+IRControl irR(0);
+IRControl irL(1);
+MotorControl motR(1);
+MotorControl motL(2);
 UltrasonicControl sonic (13,12);
 
 const int UP=0, RIGHT=1, DOWN=2, LEFT=3;
@@ -65,35 +65,35 @@ void setup()
 
 void loop() 
 {  
-   Serial.print(ir1.isBlack());
+   Serial.print(irR.isBlack());
    Serial.print("\t");
-   Serial.print(ir2.isBlack());
+   Serial.print(irL.isBlack());
    Serial.print("\t");
    Serial.println(sonic.getDistance());
 
    
-   if (ir1.isBlack() == 0 && ir2.isBlack() == 0)
+   if (irR.isBlack() == 0 && irL.isBlack() == 0)
    {
-      mot1.forward(left_mot_fwd_speed);
-      mot2.forward(right_mot_fwd_speed);
+      motR.forward(left_mot_fwd_speed);
+      motL.forward(right_mot_fwd_speed);
       secondTry=false;
    }
   
-   else if ((ir1.isBlack() == 1) && (ir2.isBlack() == 0)) //moving left
+   else if ((irR.isBlack() == 1) && (irL.isBlack() == 0)) //moving left
    {
-      mot1.forward(correct_mot_speed);  //turn up left wheel to correct to the right
-      mot2.forward(right_mot_fwd_speed);
+      motR.forward(correct_mot_speed);  //turn up left wheel to correct to the right
+      motL.forward(right_mot_fwd_speed);
       secondTry=false;
    }
 
-   else if ((ir1.isBlack() == 0) && (ir2.isBlack() == 1))//moving right
+   else if ((irR.isBlack() == 0) && (irL.isBlack() == 1))//moving right
    {
-      mot1.forward(left_mot_fwd_speed);  //turn up the right wheel to correct to the left
-      mot2.forward(correct_mot_speed);
+      motR.forward(left_mot_fwd_speed);  //turn up the right wheel to correct to the left
+      motL.forward(correct_mot_speed);
       secondTry=false;
    }
   
-   else if ((ir1.isBlack() == 1) && (ir2.isBlack() == 1))  //hit and intersection and stop!
+   else if ((irR.isBlack() == 1) && (irL.isBlack() == 1))  //hit and intersection and stop!
    {
       stop(); //delay for a brief second to evaluate
 
@@ -183,8 +183,8 @@ void stop()
 {
    for (long i=0; i<20000 ; i++)  //Note: Needs to be long for 4 byte storage
    {                               //Rather than 2 byte storage of int
-      mot1.halt();
-      mot2.halt();
+      motR.halt();
+      motL.halt();
    }
 }
 
@@ -193,8 +193,8 @@ void backup()
    stop();
    for (long i=0; i<30000; i++)
    {
-      mot1.reverse(71);
-      mot2.reverse(74);
+      motR.reverse(71);
+      motL.reverse(74);
    }
    stop();
 }
@@ -203,26 +203,31 @@ void turnRight()
 {
    for (long j=0; j<20000; j++)
    {
-      mot1.forward(74);
-      mot2.forward(76);
+      motR.forward(74);
+      motL.forward(76);
    }
    for (long j=0; j<32000; j++)
    {
-      mot1.forward(70);
-      mot2.reverse(70);
+      motR.forward(70);
+      motL.reverse(70);
    }
 }
 
 void turnLeft(){
+
     for (long j=0; j<20000; j++)
    {
-      mot1.forward(74);
-      mot2.forward(76);
+      motR.forward(1);
+      motL.forward(1);
    }
+  while(ir){
+    
+  }
+   
    for (long j=0; j<30000; j++)
    {
-      mot1.reverse(70);
-      mot2.forward(70);
+      motR.reverse(70);
+      motL.forward(70);
    }
 }
 
@@ -230,8 +235,8 @@ void kickStart()
 {
    for (long k=0; k<10000; k++)
    {
-      mot1.forward(left_mot_fwd_speed);
-      mot2.forward(right_mot_fwd_speed);
+      motR.forward(left_mot_fwd_speed);
+      motL.forward(right_mot_fwd_speed);
    }
 }
 
