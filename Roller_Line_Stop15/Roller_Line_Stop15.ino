@@ -58,7 +58,13 @@ void setup()
 
 void loop() 
 {  
-   
+  
+   Serial.print(ir1.isBlack());
+   Serial.print("\t");
+   Serial.print(ir2.isBlack());
+   Serial.print("\t");
+   Serial.println(sonic.getDistance());
+
 }
 
 
