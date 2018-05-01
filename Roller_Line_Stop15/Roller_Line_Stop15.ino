@@ -34,8 +34,8 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
-IRControl ir1(0);
-IRControl ir2(1);
+IRControl irR(0);
+IRControl irL(1);
 MotorControl mot1(1);
 MotorControl mot2(2);
 UltrasonicControl sonic (13,12);
@@ -51,20 +51,76 @@ boolean secondTry=false;
 
 void setup() 
 {
- 
-
+   Serial.begin(9600);
+   setLEDs();
+   delay(5000);
+   randomSeed(analogRead(2));
+   pinMode(2, OUTPUT); //X co-ord MSB LED
+   pinMode(3, OUTPUT); //X co-ord LSB LED
+   pinMode(8, OUTPUT); //Y co-ord MSB LED
+   pinMode(9, OUTPUT); //Y co-ord LSB LED
    
 }
 
 void loop() 
 {  
   
-   Serial.print(ir1.isBlack());
+   Serial.print(irR.isBlack());
    Serial.print("\t");
-   Serial.print(ir2.isBlack());
+   Serial.print(irL.isBlack());
    Serial.print("\t");
    Serial.println(sonic.getDistance());
 
+}
+
+void setLEDs()
+{
+  //light up proper binary code for x co-ord
+  
+   if (xCOORD==0)
+   {
+     digitalWrite(2,HIGH);
+     digitalWrite(3,HIGH);
+   }
+   else if (xCOORD==1)
+   {
+     digitalWrite(2,HIGH);
+     digitalWrite(3,LOW);
+   }
+   else if (xCOORD==2)
+   {
+     digitalWrite(2,LOW);
+     digitalWrite(3,HIGH);
+   }
+   else if (xCOORD==3)
+   {
+     digitalWrite(2,LOW);
+     digitalWrite(3,LOW);
+   }
+
+   //light up proper binary code for y co-ord
+   
+   if (yCOORD==0)
+   {
+     digitalWrite(8,HIGH);
+     digitalWrite(9,HIGH);
+   }
+   else if (yCOORD==1)
+   {
+     digitalWrite(8,HIGH);
+     digitalWrite(9,LOW);
+   }
+   else if (yCOORD==2)
+   {
+     digitalWrite(8,LOW);
+     digitalWrite(9,HIGH);
+   }
+   else if (yCOORD==3)
+   {
+     digitalWrite(8,LOW);
+     digitalWrite(9,LOW);
+   }
+     
 }
 
 
