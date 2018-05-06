@@ -2,13 +2,9 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
-#include <IRControl.h>
-#include <MotorControl.h>
-#include <UltrasonicControl.h>
-
-// April 29th - Started as Yom-Pom1 - Basic right turn code when an obstacle is detected. (Same as Roller_Line_Stop2.ino) howdy
+// April 29th - Started as Yom-Pom1 - Basic right turn code when an obstacle is detected. (Same as Roller_Line_Stop2.ino)
 // April 30th - Roller_Line_Stop3 - First major coding attempt.  This code can't currently
-//              deal with turning into an obstacle which we will definitely need to deal with
+//              deal with turning into an obstacle which we will definitely need to deal with 
 //              (But for a plan on how to deal with this, see the notes in the black/black
 //              section.
 //  May 4th -   Roller_Line_Stop8 - Added Outputs to drive LEDs for x and y co-ords.  I/O pin 2 (MSB) and 3 (LSB) specify x 
@@ -999,6 +995,7 @@ int evaluateTurn(int x, int y, int dir, boolean second)
       }
              
 }
+
 
 
 
