@@ -95,13 +95,13 @@ void centering(){
   }
 
   else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) {
-    motR.forward(correct_mot_speed);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(correct_mot_speed);
+    motR.forward(right_mot_fwd_speed);
   }
 
   else if ((irL.isBlack() == 0) && (irR.isBlack() == 1)) {
-    motR.forward(left_mot_fwd_speed);
-    motL.forward(correct_mot_speed);
+    motL.forward(left_mot_fwd_speed);
+    motR.forward(correct_mot_speed);
   }
 
  
