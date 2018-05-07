@@ -8,7 +8,7 @@ MotorControl motL(1);
 MotorControl motR(2);
 UltrasonicControl sonic(13,12);
 boolean position[7][4];
-char dir;
+int dir;
 const int left_mot_fwd_speed = 75, right_mot_fwd_speed = 75;
 const int correct_mot_speed = 100;
 
@@ -19,7 +19,7 @@ void setup() {
       }
     }
     position[0][0] = true;
-    dir = 'u';
+    dir = 1;
 }
 
 void loop() {
@@ -69,7 +69,7 @@ void turnRight() {
   }
 }
 
-void kickLeft() {
+void kickRight() {
   while (irR.isBlack()) {
     motR.forward(0);
     motL.forward(right_mot_fwd_speed);
