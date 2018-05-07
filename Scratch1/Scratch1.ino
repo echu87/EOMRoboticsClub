@@ -19,7 +19,13 @@ void loop() {
   centering();
    if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
     stop();
-    turnLeft();
+    if(random(0,10)>5){
+      turnLeft();
+      }
+      else{
+         turnRight();
+        }
+   
   }
 }
 
