@@ -7,12 +7,19 @@ IRControl irR(1);
 MotorControl motL(1);
 MotorControl motR(2);
 UltrasonicControl sonic(13,12);
-
+boolean position[7][4];
+char dir;
 const int left_mot_fwd_speed = 75, right_mot_fwd_speed = 75;
 const int correct_mot_speed = 100;
 
 void setup() {
-  
+  for(int y =0;y<7;y++){
+    for(int x =0;x<7;x++){
+      position[x][y] = false;
+      }
+    }
+    position[0][0] = true;
+    dir = 'u';
 }
 
 void loop() {
