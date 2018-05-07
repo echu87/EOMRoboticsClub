@@ -25,19 +25,20 @@ void setup() {
 }
 
 void loop() {
-  centering();
+  
    if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
-    
-    stop();
-    if(random(0,10)>5){
-      
-      turnLeft();
-      }
-      else{
-         turnRight();
-        }
-   
-  }
+       motL.forward(left_mot_fwd_speed);
+    motR.forward(right_mot_fwd_speed);
+//    stop();
+//    if(random(10)>5){
+//      turnLeft();
+//      }
+//      else{
+//         turnRight();
+//        }
+  }else{
+    centering();
+    }
 }
 
 void turnLeft() {
