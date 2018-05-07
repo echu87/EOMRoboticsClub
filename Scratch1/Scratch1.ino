@@ -25,20 +25,20 @@ void setup() {
 }
 
 void loop() {
-  
-   if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
-       motL.forward(left_mot_fwd_speed);
-    motR.forward(right_mot_fwd_speed);
-//    stop();
-//    if(random(10)>5){
-//      turnLeft();
-//      }
-//      else{
-//         turnRight();
-//        }
-  }else{
-    centering();
-    }
+  centering();
+//   if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
+//       motL.forward(left_mot_fwd_speed);
+//    motR.forward(right_mot_fwd_speed);
+////    stop();
+////    if(random(10)>5){
+////      turnLeft();
+////      }
+////      else{
+////         turnRight();
+////        }
+//  }else{
+//    centering();
+//    }
 }
 
 void turnLeft() {
