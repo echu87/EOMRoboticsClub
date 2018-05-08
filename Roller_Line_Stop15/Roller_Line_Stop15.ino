@@ -41,7 +41,7 @@ MotorControl motL(2);
 UltrasonicControl sonic (13,12);
 
 const int UP=0, RIGHT=1, DOWN=2, LEFT=3;
-const int left_mot_fwd_speed=74, right_mot_fwd_speed=76;
+const int left_mot_fwd_speed=74, right_mot_fwd_speed=78;
 const int correct_mot_speed=100;
 const int left_turn_speed=85, right_turn_speed=85;
 
@@ -201,34 +201,47 @@ void backup()
 
 void turnRight()
 {
-   for (long j=0; j<20000; j++)
-   {
-      motR.forward(74);
-      motL.forward(76);
-   }
-   for (long j=0; j<32000; j++)
-   {
-      motR.forward(70);
-      motL.reverse(70);
-   }
+  while(irR.isBlack()==1&&irL.isBlack()==1){
+    motL.forward(10);
+    if(!(irR.isBlack()==1&&irL.isBlack()==1)){
+      break;
+    }
+  }
+    while(irR.isBlack()==1&&irL.isBlack()==0){
+    motL.forward(10);
+        if(!(irR.isBlack()==1&&irL.isBlack()==0)){
+    break;
+    }
+  }
+    while(irR.isBlack()==0&&irL.isBlack()==0){
+    motL.forward(10);
+    if(!(irR.isBlack()==0&&irL.isBlack()==0)){
+    break;
+    }
+  }
 }
 
 void turnLeft(){
 
-    for (long j=0; j<20000; j++)
-   {
-      motR.forward(1);
-      motL.forward(1);
-   }
-  while(ir){
-    
+  while(irR.isBlack()==1&&irL.isBlack()==1){
+    motR.forward(10);
+    if(!(irR.isBlack()==1&&irL.isBlack()==1)){
+      break;
+    }
+  }
+    while(irR.isBlack()==0&&irL.isBlack()==1){
+    motR.forward(10);
+        if(!(irR.isBlack()==0&&irL.isBlack()==1)){
+    break;
+    }
+  }
+    while(irR.isBlack()==0&&irL.isBlack()==0){
+    motR.forward(10);
+    if(!(irR.isBlack()==0&&irL.isBlack()==0)){
+    break;
+    }
   }
    
-   for (long j=0; j<30000; j++)
-   {
-      motR.reverse(70);
-      motL.forward(70);
-   }
 }
 
 void kickStart()
