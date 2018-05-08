@@ -106,7 +106,7 @@ void turnLeft() {
   kickLeft();
   while (turnCounter < 2) {
     motL.forward(0);
-    motR.forward(right_mot_fwd_speed);
+    motR.forward(120);
     if (irL.isBlack()&& !irR.isBlack()) {
       kickLeft();
       turnCounter++;
@@ -117,7 +117,7 @@ void turnLeft() {
 void kickLeft() {
   while (irL.isBlack()) {
     motL.forward(0);
-    motR.forward(right_mot_fwd_speed);
+    motR.forward(120);
   }
 }
 
@@ -126,7 +126,7 @@ void turnRight() {
   kickRight();
   while (turnCounter < 2) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(70);
     if (irR.isBlack()&& !irL.isBlack()) {
       kickRight();
       turnCounter++;
@@ -137,7 +137,7 @@ void turnRight() {
 void kickRight() {
   while (irR.isBlack()) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(70);
   }
 }
 
