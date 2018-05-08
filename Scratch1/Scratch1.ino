@@ -25,7 +25,7 @@ void setup() {
 }
 
 void loop() {
-  motL.forward(right_mot_fwd_speed);
+  motR.forward(right_mot_fwd_speed);
 //   if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
 //       motL.forward(left_mot_fwd_speed);
 //    motR.forward(right_mot_fwd_speed);
