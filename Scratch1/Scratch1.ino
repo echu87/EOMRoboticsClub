@@ -9,7 +9,7 @@ MotorControl motR(2);
 UltrasonicControl sonic(13,12);
 boolean position[7][4];
 int dir, posX,posY;
-const int left_mot_fwd_speed = 60, right_mot_fwd_speed = 75;
+const int left_mot_fwd_speed = 0, right_mot_fwd_speed = 75;
 const int correct_mot_speed = 100;
 
 void setup() {
@@ -25,7 +25,7 @@ void setup() {
 }
 
 void loop() {
-  centering();
+  motR.forward(right_mot_fwd_speed);
 //   if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
 //       motL.forward(left_mot_fwd_speed);
 //    motR.forward(right_mot_fwd_speed);
