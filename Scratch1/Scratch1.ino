@@ -57,10 +57,10 @@ void moving(){
     motR.forward(120);
   }
 
-   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
-  {
-   turnLeft();
-  }
+//   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
+//  {
+//   turnLeft();
+//  }
  
   }
 
