@@ -118,7 +118,7 @@ void centering(){
 //}
 //
 void turnLeft() {
-  int turnCounter = 0;
+  int turnCounter = 1;
   kickLeft();
   while (turnCounter < 2) {
     motL.forward(0);
