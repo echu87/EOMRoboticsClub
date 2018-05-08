@@ -89,19 +89,19 @@ void stop() {
 }
 void centering(){
   
-  if (ir1.isBlack() == 0 && ir2.isBlack() == 0)
+  if (irL.isBlack() == 0 && irR.isBlack() == 0)
   {
     motL.forward(90);
     motR.forward(90);
   }
   
-  else if ((ir1.isBlack() == 1) && (ir2.isBlack() == 0)) //moving left
+  else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
   {
     motL.forward(120);  //turn up left wheel to correct to the right
     motR.forward(70);
   }
 
-   else if ((ir1.isBlack() == 0) && (ir2.isBlack() == 1))//moving right
+   else if ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
   {
     motL.forward(70);  //turn up the right wheel to correct to the left
     motR.forward(120);
