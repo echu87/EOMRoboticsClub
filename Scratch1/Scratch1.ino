@@ -118,12 +118,12 @@ void centering(){
 //}
 //
 void turnLeft() {
-  int turnCounter = 1;
+  int turnCounter = 0;
   kickLeft();
   while (turnCounter < 2) {
     motL.forward(0);
     motR.forward(right_mot_fwd_speed);
-    if (irL.isBlack()&& !irR.isBlack()) {
+    if (irL.isBlack()) {
       kickLeft();
       turnCounter++;
     }
