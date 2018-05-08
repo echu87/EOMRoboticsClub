@@ -128,6 +128,7 @@ void turnLeft() {
       turnCounter++;
     }
   }
+  kickRight();
 }
 
 void kickLeft() {
@@ -150,12 +151,12 @@ void kickLeft() {
 //  }
 //}
 //
-//void kickRight() {
-//  while (irR.isBlack()) {
-//    motR.forward(0);
-//    motL.forward(right_mot_fwd_speed);
-//  }
-//}
+void kickRight() {
+  while (irR.isBlack()) {
+    motR.forward(0);
+    motL.forward(right_mot_fwd_speed);
+  }
+}
 //
 //void stop() {
 //  for (long i = 0; i < 20000; i++) {
