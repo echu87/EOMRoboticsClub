@@ -25,7 +25,38 @@ void setup() {
 }
 
 void loop() {
- centering();
+if (irL.isBlack() == 0 && irR.isBlack() == 0)
+  {
+    motL.forward(90);
+    motR.forward(90);
+  }
+  
+  else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
+  {
+    motL.forward(120);  //turn up left wheel to correct to the right
+    motR.forward(70);
+  }
+
+   else if ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
+  {
+    motL.forward(70);  //turn up the right wheel to correct to the left
+    motR.forward(120);
+  }
+  
+   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
+  {
+    for (long i=0; i<10000 ; i++)  //Note: Needs to be long for 4 byte storage
+    {                               //Rather than 2 byte storage of int
+      motL.halt();
+      motR.halt();
+    }
+
+    for (long j=0; j<20000; j++)
+    {
+      motL.forward(120);
+      motR.forward(0);
+    }
+  }
 //   if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
 //       motL.forward(left_mot_fwd_speed);
 //    motR.forward(right_mot_fwd_speed);
