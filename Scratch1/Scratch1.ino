@@ -33,21 +33,11 @@ void loop()
   Serial.print("\t");
   Serial.println(sonic.getDistance());
 
-  if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
-  {
-    for (long i=0; i<10000 ; i++)  //Note: Needs to be long for 4 byte storage
-    {                               //Rather than 2 byte storage of int
-      motL.halt();
-      motR.halt();
-    }
-    turnRight();
-  }else{
-    centering();
-    }
+ moving()
 }
 
 
-void centering(){
+void moving(){
   
  if (irL.isBlack() == 0 && irR.isBlack() == 0)
   {
@@ -67,20 +57,10 @@ void centering(){
     motR.forward(120);
   }
 
-//   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
-//  {
-//    for (long i=0; i<10000 ; i++)  //Note: Needs to be long for 4 byte storage
-//    {                               //Rather than 2 byte storage of int
-//      motL.halt();
-//      motR.halt();
-//    }
-//
-//    for (long j=0; j<20000; j++)
-//    {
-//      motL.forward(120);
-//      motR.forward(0);
-//    }
-//  }
+   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
+  {
+   turnLeft();
+  }
  
   }
 
