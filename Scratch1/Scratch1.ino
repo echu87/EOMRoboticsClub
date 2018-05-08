@@ -2,10 +2,10 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
-IRControl ir1(0);
-IRControl ir2(1);
-MotorControl mot1(1);
-MotorControl mot2(2);
+IRControl irL(0);
+IRControl irR(1);
+MotorControl motL(1);
+MotorControl motR(2);
 UltrasonicControl sonic (13,12);
    
 void setup() 
@@ -17,42 +17,42 @@ void setup()
 
 void loop() 
 {  
-  Serial.print(ir1.isBlack());
+  Serial.print(irL.isBlack());
   Serial.print("\t");
-  Serial.print(ir2.isBlack());
+  Serial.print(irR.isBlack());
   Serial.print("\t");
   Serial.println(sonic.getDistance());
   
-  if (ir1.isBlack() == 0 && ir2.isBlack() == 0)
+  if (irL.isBlack() == 0 && irR.isBlack() == 0)
   {
-    mot1.forward(90);
-    mot2.forward(90);
+    motL.forward(90);
+    motR.forward(90);
   }
   
-  else if ((ir1.isBlack() == 1) && (ir2.isBlack() == 0)) //moving left
+  else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
   {
-    mot1.forward(120);  //turn up left wheel to correct to the right
-    mot2.forward(70);
+    motL.forward(120);  //turn up left wheel to correct to the right
+    motR.forward(70);
   }
 
-   else if ((ir1.isBlack() == 0) && (ir2.isBlack() == 1))//moving right
+   else if ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
   {
-    mot1.forward(70);  //turn up the right wheel to correct to the left
-    mot2.forward(120);
+    motL.forward(70);  //turn up the right wheel to correct to the left
+    motR.forward(120);
   }
   
-   else if ((ir1.isBlack() == 1) && (ir2.isBlack() == 1))  //hit and intersection and stop!
+   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
     for (long i=0; i<10000 ; i++)  //Note: Needs to be long for 4 byte storage
     {                               //Rather than 2 byte storage of int
-      mot1.halt();
-      mot2.halt();
+      motL.halt();
+      motR.halt();
     }
 
     for (long j=0; j<20000; j++)
     {
-      mot1.forward(120);
-      mot2.forward(0);
+      motL.forward(120);
+      motR.forward(0);
     }
   }
  
