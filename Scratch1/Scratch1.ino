@@ -9,7 +9,7 @@ MotorControl motR(2);
 UltrasonicControl sonic (13,12);
 
 boolean position[7][4];
-int dir, posX,posY,right_mot_fwd_speed =120;
+int dir, posX,posY,right_mot_fwd_speed =70;
 void setup() 
 {
     Serial.begin(9600);
