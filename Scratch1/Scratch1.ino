@@ -40,7 +40,7 @@ void loop()
       motL.halt();
       motR.halt();
     }
-    turnLeft();
+    turnRight();
   }else{
     centering();
     }
