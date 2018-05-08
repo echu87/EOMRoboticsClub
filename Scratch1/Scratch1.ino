@@ -25,7 +25,7 @@ void setup() {
 }
 
 void loop() {
-  motL.forward(right_mot_fwd_speed);
+ centering();
 //   if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
 //       motL.forward(left_mot_fwd_speed);
 //    motR.forward(right_mot_fwd_speed);
@@ -88,27 +88,23 @@ void stop() {
   }
 }
 void centering(){
-    if ((irL.isBlack() == 1) && (irR.isBlack() == 1)) {
-    stop();
-  }else{
-    motL.forward(left_mot_fwd_speed);
-   motR.forward(right_mot_fwd_speed);
-    }
-//  
-//if ((irL.isBlack() == 0) && (irR.isBlack() == 0)) {
-//    motL.forward(left_mot_fwd_speed);
-//    motR.forward(right_mot_fwd_speed);
-//  }
-//
-//  else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) {
-//    motL.forward(correct_mot_speed);
-//    motR.forward(right_mot_fwd_speed);
-//  }
-//
-//  else if ((irL.isBlack() == 0) && (irR.isBlack() == 1)) {
-//    motL.forward(left_mot_fwd_speed);
-//    motR.forward(correct_mot_speed);
-//  }
+  
+  if (ir1.isBlack() == 0 && ir2.isBlack() == 0)
+  {
+    motL.forward(90);
+    motR.forward(90);
+  }
+  
+  else if ((ir1.isBlack() == 1) && (ir2.isBlack() == 0)) //moving left
+  {
+    motL.forward(120);  //turn up left wheel to correct to the right
+    motR.forward(70);
+  }
 
+   else if ((ir1.isBlack() == 0) && (ir2.isBlack() == 1))//moving right
+  {
+    motL.forward(70);  //turn up the right wheel to correct to the left
+    motR.forward(120);
+  }
  
   }
