@@ -33,7 +33,7 @@ void loop()
   Serial.print("\t");
   Serial.println(sonic.getDistance());
 
- moving()
+ moving();
 }
 
 
