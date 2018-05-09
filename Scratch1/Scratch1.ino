@@ -9,7 +9,7 @@ MotorControl motR(2);
 UltrasonicControl sonic (13,12);
 const int UP=0, RIGHT=1, DOWN=2, LEFT=3;
 boolean moveableSpot[4];
-int dir, posX,posY,right_mot_fwd_speed =80;
+int dir, posX,posY,right_mot_fwd_speed =60,left_mot_fwd_speed =75;
 void setup() 
 {
     Serial.begin(9600);
@@ -96,13 +96,13 @@ void pushLeft() {
 void kickRight() {
   while (irR.isBlack()) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(left_mot_fwd_speed);
   }
 }
 void pushRight() {
   while (!irR.isBlack()) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(left_mot_fwd_speed);
   }
 }
 void turnRight() {
@@ -110,7 +110,7 @@ void turnRight() {
   kickRight();
   while (turnCounter < 2) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(left_mot_fwd_speed);
     if (irR.isBlack()) {
       kickRight();
       turnCounter++;
@@ -123,7 +123,14 @@ void node(int i)
 {
   clearPresets();
   switch(dir){
-    
+    case UP: posY++;
+    break;
+    case DOWN: posY--;
+    break;
+    case RIGHT: posX++;
+    break;
+    case LEFT: posX--;
+  
     }
   
 }
