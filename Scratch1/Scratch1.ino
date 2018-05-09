@@ -7,20 +7,17 @@ IRControl irR(1);
 MotorControl motL(1);
 MotorControl motR(2);
 UltrasonicControl sonic (13,12);
-
-boolean position[7][4];
+const int UP=0, RIGHT=1, DOWN=2, LEFT=3;
+boolean moveableSpot[4];
 int dir, posX,posY,right_mot_fwd_speed =80;
 void setup() 
 {
     Serial.begin(9600);
       delay(5000);
-        for(int y =0;y<7;y++){
-    for(int x =0;x<7;x++){
-      position[x][y] = false;
-      }
-    }
-    position[0][0] = true;
-    dir = 1;
+      
+ 
+    
+    dir = UP;
     posX=0,posY=0;
     
 }
@@ -61,20 +58,10 @@ void centering(){
   
    else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-     position[posX][posY] = flase;
-    if(dir % 2 == 0)
-    {
-      posX += dir/2;
-      position[posX][posY] = true;
-    }else{
-      posY += dir;
-      position[posX][posY] = true;
-    }
-   if(dir == 1 && posX<3)
-   turnRight();
-   else if(dir == 2 && posY<6)
+   if(sonic.detect())
    turnLeft();
-   
+   else
+   turnRight();
   }
  
   }
@@ -120,6 +107,31 @@ void turnRight() {
   }
   kickLeft();
 }
+
+void node(int i)
+{
+  clearPresets();
+  
+  
+}
+
+void clearPresets(){
+  for(int i =0; i < 4 ; i++)
+  {
+    moveableSpot[i] =true;  
+  }
+  switch(posX){
+    case 0: moveableSpot[LEFT] =false;
+    break;
+    case 3: moveableSpot[RIGHT] = false;
+    }
+   switch(posY){
+    case 6: moveableSpot[UP] =false;
+    break;
+    case 0: moveableSpot[DOWN] = false;
+    }
+  
+  }
 
 
 
