@@ -9,7 +9,7 @@ MotorControl motR(2);
 UltrasonicControl sonic (13,12);
 const int UP=0, RIGHT=1, DOWN=2, LEFT=3;
 boolean moveableSpot[4];
-int dir, posX,posY,right_mot_fwd_speed =900,left_mot_fwd_speed = 900;
+int dir, posX,posY,right_mot_fwd_speed =80;
 void setup() 
 {
     Serial.begin(9600);
@@ -87,30 +87,19 @@ void kickLeft() {
     motR.forward(right_mot_fwd_speed);
   }
 }
-void pushLeft() {
-  while (!irL.isBlack()) {
-    motL.forward(0);
-    motR.forward(right_mot_fwd_speed);
-  }
-}
 void kickRight() {
   while (irR.isBlack()) {
     motR.forward(0);
-    motL.forward(left_mot_fwd_speed);
+    motL.forward(right_mot_fwd_speed);
   }
 }
-void pushRight() {
-  while (!irR.isBlack()) {
-    motR.forward(0);
-    motL.forward(left_mot_fwd_speed);
-  }
-}
+
 void turnRight() {
   int turnCounter = 1;
   kickRight();
   while (turnCounter < 2) {
     motR.forward(0);
-    motL.forward(left_mot_fwd_speed);
+    motL.forward(right_mot_fwd_speed);
     if (irR.isBlack()) {
       kickRight();
       turnCounter++;
@@ -122,7 +111,7 @@ void turnRight() {
 void node(int i)
 {
   clearPresets();
-  switch(dir){
+ switch(dir){
     case UP: posY++;
     break;
     case DOWN: posY--;
@@ -132,9 +121,9 @@ void node(int i)
     case LEFT: posX--;
     }
     if(sonic.detect()){
-    moveableSpot[dir] = false;
+    moveableSpot[dir];
     }
-    
+  
 }
 
 void clearPresets(){
