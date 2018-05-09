@@ -9,7 +9,7 @@ MotorControl motR(2);
 UltrasonicControl sonic (13,12);
 const int UP=0, RIGHT=1, DOWN=2, LEFT=3;
 boolean moveableSpot[4];
-int dir, posX,posY,right_mot_fwd_speed =90,left_mot_fwd_speed =40;
+int dir, posX,posY,right_mot_fwd_speed =900,left_mot_fwd_speed =400;
 void setup() 
 {
     Serial.begin(9600);
