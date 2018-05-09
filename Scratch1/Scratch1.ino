@@ -78,7 +78,9 @@ void turnLeft() {
       turnCounter++;
     }
   }
+ for(int i =0;i <300;i++){
   kickRight();
+  }
 }
 
 void kickLeft() {
@@ -105,7 +107,10 @@ void turnRight() {
       turnCounter++;
     }
   }
+   for(int i =0;i <300;i++){
   kickLeft();
+  }
+  
 }
 
 void node(int i)
