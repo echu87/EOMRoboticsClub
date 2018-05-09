@@ -68,7 +68,7 @@ void centering(){
 
 
 void turnLeft() {
-  int turnCounter = 0;
+  int turnCounter = 1;
   kickLeft();
   while (turnCounter < 2) {
     motL.forward(0);
@@ -106,7 +106,7 @@ void pushRight() {
   }
 }
 void turnRight() {
-  int turnCounter = 0;
+  int turnCounter = 1;
   kickRight();
   while (turnCounter < 2) {
     motR.forward(0);
