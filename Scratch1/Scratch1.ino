@@ -99,9 +99,10 @@ void kickRight() {
 void turnRight() {
   int turnCounter = 0;
   kickRight();
-  while (turnCounter < 2) {
+  
+  while (turnCounter < 1) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(right_mot_fwd_speed*4);
     if (irR.isBlack()) {
       kickRight();
       turnCounter++;
