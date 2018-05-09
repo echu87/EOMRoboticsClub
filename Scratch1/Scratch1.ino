@@ -78,11 +78,17 @@ void turnLeft() {
       turnCounter++;
     }
   }
-  kickRight();
+  pushRight();
 }
 
 void kickLeft() {
   while (irL.isBlack()) {
+    motL.forward(0);
+    motR.forward(right_mot_fwd_speed);
+  }
+}
+void pushLeft() {
+  while (!irL.isBlack()) {
     motL.forward(0);
     motR.forward(right_mot_fwd_speed);
   }
@@ -93,7 +99,12 @@ void kickRight() {
     motL.forward(right_mot_fwd_speed);
   }
 }
-
+void pushRight() {
+  while (!irR.isBlack()) {
+    motR.forward(0);
+    motL.forward(right_mot_fwd_speed);
+  }
+}
 void turnRight() {
   int turnCounter = 0;
   kickRight();
@@ -105,7 +116,7 @@ void turnRight() {
       turnCounter++;
     }
   }
-  kickLeft();
+  pushLeft();
 }
 
 void node(int i)
