@@ -9,7 +9,7 @@ MotorControl motR(2);
 UltrasonicControl sonic (13,12);
 const int UP=0, RIGHT=1, DOWN=2, LEFT=3;
 boolean moveableSpot[4];
-int dir, posX,posY,right_mot_fwd_speed =60,left_mot_fwd_speed =75;
+int dir, posX,posY,right_mot_fwd_speed =40,left_mot_fwd_speed =95;
 void setup() 
 {
     Serial.begin(9600);
@@ -130,9 +130,11 @@ void node(int i)
     case RIGHT: posX++;
     break;
     case LEFT: posX--;
-  
     }
-  
+    if(sonic.detect()){
+    moveableSpot[dir] = false;
+    }
+    
 }
 
 void clearPresets(){
