@@ -57,8 +57,7 @@ void centering(){
    else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
     stopMotors();
-    turnRight();
-    //node();
+    node();
   }
  
   }
@@ -162,6 +161,7 @@ void clearPresets(){
     }
   
   }
+  
   void turn(int rotation){
     rotation = rotation - dir;
     if(rotation>0){
@@ -183,7 +183,8 @@ void clearPresets(){
         }
       
     
-    }
+   }
+
 
 
 
