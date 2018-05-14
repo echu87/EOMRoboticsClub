@@ -9,7 +9,8 @@ MotorControl motR(2);
 UltrasonicControl sonic (13,12);
 const int LEFT=1, UP=2, RIGHT=3, DOWN=0;
 boolean moveableSpot[4];
-int dir, posX,posY,right_mot_fwd_speed =80;
+int dir, posX,posY;
+
 void setup() 
 {
     Serial.begin(9600);
@@ -55,38 +56,46 @@ void centering(){
   
    else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-  node();
+    stopMotors();
+    turnRight();
+    //node();
   }
  
   }
 
+  void stopMotors() {
+    motL.forward(0);
+    motR.forward(0);
+  }
+
+void kickLeft() {
+  while (irL.isBlack()) {
+    motL.forward(0);
+    motR.forward(90);
+  }
+}
 
 void turnLeft() {
   int turnCounter = 0;
   kickLeft();
   while (turnCounter < 2) {
     motL.forward(0);
-    motR.forward(right_mot_fwd_speed);
+    motR.forward(90);
     if (irL.isBlack()) {
       kickLeft();
       turnCounter++;
     }
   }
- for(int i =0;i <300;i++){
-  kickRight();
+  while (!irR.isBlack()) {
+    motL.forward(70);
+    motR.forward(0);
   }
 }
 
-void kickLeft() {
-  while (irL.isBlack()) {
-    motL.forward(0);
-    motR.forward(right_mot_fwd_speed);
-  }
-}
 void kickRight() {
   while (irR.isBlack()) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed);
+    motL.forward(90);
   }
 }
 
@@ -96,16 +105,16 @@ void turnRight() {
   
   while (turnCounter < 1) {
     motR.forward(0);
-    motL.forward(right_mot_fwd_speed*4);
+    motL.forward(90);
     if (irR.isBlack()) {
       kickRight();
       turnCounter++;
     }
   }
-   for(int i =0;i <300;i++){
-  kickLeft();
+  while (!irL.isBlack()) {
+    motL.forward(0);
+    motR.forward(70);
   }
-  
 }
 
 void node()
