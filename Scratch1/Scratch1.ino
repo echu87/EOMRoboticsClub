@@ -2,6 +2,10 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
+#include <IRControl.h>
+#include <MotorControl.h>
+#include <UltrasonicControl.h>
+
 IRControl irL(0);
 IRControl irR(1);
 MotorControl motL(1);
@@ -55,7 +59,8 @@ void centering(){
   
    else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-  node();
+  motL.forward(90);
+    motR.forward(90);
   }
  
   }
