@@ -2,6 +2,10 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
+#include <IRControl.h>
+#include <MotorControl.h>
+#include <UltrasonicControl.h>
+
 IRControl irL(0);
 IRControl irR(1);
 MotorControl motL(1);
@@ -55,9 +59,10 @@ void centering(){
   
    else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
+
+
     stopMotors();
-    turnRight();
-    //node();
+    node();
   }
  
   }
@@ -161,6 +166,7 @@ void clearPresets(){
     }
   
   }
+  
   void turn(int rotation){
     rotation = rotation - dir;
     if(rotation>0){
@@ -180,9 +186,13 @@ void clearPresets(){
         else
         dir += 2;
         }
-      
 
     }
+
+    
+
+    
+
 
 void dijkstra(int graph[n][n], int src)
 {
