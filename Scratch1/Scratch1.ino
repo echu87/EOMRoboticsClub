@@ -2,15 +2,18 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
+#include <IRControl.h>
+#include <MotorControl.h>
+#include <UltrasonicControl.h>
+
 IRControl irL(0);
 IRControl irR(1);
 MotorControl motL(1);
 MotorControl motR(2);
 UltrasonicControl sonic (13,12);
-const int LEFT=1, UP=2, RIGHT=3, DOWN=0;
+const int LEFT=1, UP=2, RIGHT=3, DOWN=0 , n =28;
 boolean moveableSpot[4];
-int dir, posX,posY;
-
+int dir, posX,posY,path[30] ;
 void setup() 
 {
     Serial.begin(9600);
@@ -56,6 +59,8 @@ void centering(){
   
    else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
+
+
     stopMotors();
     node();
   }
@@ -181,9 +186,12 @@ void clearPresets(){
         else
         dir += 2;
         }
-      
+
+    }
+
     
-   }
+
+    
 
   void setNodes()
   {
@@ -227,6 +235,57 @@ void clearPresets(){
         
       };
 
+void dijkstra(int graph[n][n], int src)
+{
+    int dist[n]; 
+    bool sptSet[n];
+    int parent[n];
+    for (int i = 0; i < n; i++)
+    {
+        parent[0] = -1;
+        dist[i] = 9999;
+        sptSet[i] = false;
+    }
+    dist[src] = 0;
+    for (int count = 0; count < n - 1; count++)
+    {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = true;
+        for (int v = 0; v < n; v++)
+            if (!sptSet[v] && graph[u][v] &&
+                dist[u] + graph[u][v] < dist[v])
+            {
+                parent[v] = u;
+                dist[v] = dist[u] + graph[u][v];
+            } 
+    }
+    printPath(parent, n);
+}
+int minDistance(int dist[], 
+                bool sptSet[])
+{
+ 
+    int min = 9999, min_index;
+ 
+    for (int v = 0; v < n; v++)
+        if (sptSet[v] == false &&
+                   dist[v] <= min)
+            min = dist[v], min_index = v;
+ 
+    return min_index;
+}
+void printPath(int parent[], int j)
+{
+     
+    // Base Case : If j is source
+    if (parent[j] == - 1)
+        return;
+ 
+    printPath(parent, parent[j]);
+ 
+    Serial.print(""+j);
+}
+ 
 
 
 
