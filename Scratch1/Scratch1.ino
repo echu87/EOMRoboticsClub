@@ -17,20 +17,21 @@ int dir, posX,posY,path[30] ;
 void setup() 
 {
     Serial.begin(9600);
-      delay(5000);
+
     dir = UP;
     posX=0,posY=0;
+    setNodes();
     
 }
 
 
 void loop() 
 {  
-  Serial.print(irL.isBlack());
-  Serial.print("\t");
-  Serial.print(irR.isBlack());
-  Serial.print("\t");
-  Serial.println(sonic.getDistance());
+//  Serial.print(irL.isBlack());
+//  Serial.print("\t");
+//  Serial.print(irR.isBlack());
+//  Serial.print("\t");
+//  Serial.println(sonic.getDistance());
   
   centering();
  
@@ -197,7 +198,7 @@ void clearPresets(){
   {
       int graph[28][28] = {
 
-                    {0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // Node 0
+                    {0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // Node 0 
                     {1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // Node 1
                     {0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // Node 2
                     {0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, // Node 3
@@ -227,7 +228,25 @@ void clearPresets(){
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0}  // Node 27
                   
                    };
+          dijkstra(graph,0);
   }
+
+  for(int x = 0; x<n;x++){
+for(int i = 0;i<n;i++){
+  if(i%8==1){
+    graph[x][i]=1;
+  }else{
+    graph[x][i]=0;
+  }
+  
+  
+}
+ } 
+
+
+
+
+  
 
 void dijkstra(int graph[n][n], int src)
 {
@@ -253,7 +272,7 @@ void dijkstra(int graph[n][n], int src)
                 dist[v] = dist[u] + graph[u][v];
             } 
     }
-    printPath(parent, n);
+    printSolution(dist, n, parent);
 }
 int minDistance(int dist[], 
                 bool sptSet[])
@@ -276,15 +295,21 @@ void printPath(int parent[], int j)
         return;
  
     printPath(parent, parent[j]);
- 
-    Serial.print(""+j);
+
+    Serial.print(j);
+}
+
+int printSolution(int dist[], int r, 
+                      int parent[])
+{
+    int src = 0;
+  Serial.print("G Path ");
+  
+       
+        printPath(parent, 25);
+    
 }
  
-
-
-
-
-
 
     
   
