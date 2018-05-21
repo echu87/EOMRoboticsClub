@@ -254,7 +254,7 @@ void setNodes()
     Serial.println();
   }
   dijkstra(graph, 0);
-  //printPathArray();
+  printPathArray();
 }
 
 
@@ -334,7 +334,7 @@ void addToPath(int j)
 }
 void printPathArray(){
   for (int i = 0; i<=counter; i++) {
-    Serial.println(path[i], DEC);
+    Serial.println(String(path[i]));
   }
   
   }
