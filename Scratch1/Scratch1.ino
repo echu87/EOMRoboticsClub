@@ -233,16 +233,16 @@ void setNodes()
   for (int x = 0; x < n; x++) {
     
       if (x + 4 < 28) {
-        graph[x][x+4] = 1;
+        graph[x][(x+4)] = 1;
       }
        if (x + 1 < 28 && !((x+1) % 4 == 0)  ) {
-        graph[x][x+1] = 1;
+        graph[x][(x+1)] = 1;
       }
        if (x - 4 >= 0 ) {
-        graph[x][x - 4] = 1;
+        graph[x][(x - 4)] = 1;
       }
         if (x - 1 >= 0  && !(x % 4 == 0) ) {
-        graph[x][x - 1] = 1;
+        graph[x][(x - 1)] = 1;
       }
     
   }
