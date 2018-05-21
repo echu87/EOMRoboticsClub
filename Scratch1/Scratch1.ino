@@ -246,7 +246,15 @@ void setNodes()
       }
     
   }
-  dijkstra(graph, 0);
+  for (int y = 0; y<28; y++) {
+
+    for (int x = 0; x<28; x++) {
+
+      Serial.print(graph[x][y]);
+      
+    }
+    Serial.println();
+  }
 }
 
 
