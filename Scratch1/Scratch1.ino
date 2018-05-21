@@ -328,13 +328,14 @@ int printSolution(int dist[], int r,
 }
 void addToPath(int j)
 {
+  Serial.println(j);
  path[counter] = j;
  counter++;
 
 }
 void printPathArray(){
-  for (int i = 0; i<=counter; i++) {
-    Serial.println(String(path[i]));
+  for (int i = 0; i<counter; i++) {
+    Serial.println(path[i], DEC);
   }
   
   }
