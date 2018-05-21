@@ -14,10 +14,34 @@ UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 boolean moveableSpot[4];
 int dir, posX, posY, path[30],counter = 0 ;
+ int graph[28][28];
 void setup()
 {
   Serial.begin(9600);
+ 
+  for (int x = 0; x < n; x++) {
+    
+      if (x + 4 < 28) {
+        graph[x][(x+4)] = 1;
+      }
+       if (x + 1 < 28 && !((x+1) % 4 == 0)  ) {
+        graph[x][(x+1)] = 1;
+      }
+       if (x - 4 >= 0 ) {
+        graph[x][(x - 4)] = 1;
+      }
+        if (x - 1 >= 0  && !(x % 4 == 0) ) {
+        graph[x][(x - 1)] = 1;
+      }
+    
+  }
 
+  for (int y =0; y<28; y++){
+    for (int x = 0; x<28; x++){
+      Serial.print(graph[x][y]);
+    }
+    Serial.println();
+  }
   dir = UP;
   posX = 0, posY = 0;
   setNodes();
@@ -124,7 +148,7 @@ void turnRight() {
 
 void node()
 {
-  clearPresets();
+ 
   switch (dir) {
     case UP: posY++;
       break;
@@ -137,58 +161,12 @@ void node()
   if (sonic.detect()) {
     moveableSpot[dir] = false;
   }
-  if (!moveableSpot[dir]) {
-    for (int i = 1; i < 4; i++) {
-      if (moveableSpot[i]) {
-        turn(i);
-      }
-    }
-  } else {
-    turnRight();
-    turnRight();
-
-  }
-}
-
-void clearPresets() {
-  for (int i = 0; i < 4 ; i++)
-  {
-    moveableSpot[i] = true;
-  }
-  switch (posX) {
-    case 0: moveableSpot[LEFT] = false;
-      break;
-    case 3: moveableSpot[RIGHT] = false;
-  }
-  switch (posY) {
-    case 6: moveableSpot[UP] = false;
-      break;
-    case 0: moveableSpot[DOWN] = false;
-  }
 
 }
 
-void turn(int rotation) {
-  rotation = rotation - dir;
-  if (rotation > 0) {
-    turnRight();
-    dir += rotation;
-  }
-  else if (rotation < 0) {
-    turnLeft();
-    dir += rotation;
-  }
-  else {
-    turnRight();
-    turnRight();
-    if (dir + 2 > 3) {
-      dir = dir + 2 - 3;
-    }
-    else
-      dir += 2;
-  }
 
-}
+
+
 
 
 
@@ -196,63 +174,7 @@ void turn(int rotation) {
 
 void setNodes()
 {
-  int graph[28][28] = {
 
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-   
-   
-
-  };
-  for (int x = 0; x < n; x++) {
-    
-      if (x + 4 < 28) {
-        graph[x][(x+4)] = 1;
-      }
-       if (x + 1 < 28 && !((x+1) % 4 == 0)  ) {
-        graph[x][(x+1)] = 1;
-      }
-       if (x - 4 >= 0 ) {
-        graph[x][(x - 4)] = 1;
-      }
-        if (x - 1 >= 0  && !(x % 4 == 0) ) {
-        graph[x][(x - 1)] = 1;
-      }
-    
-  }
-
-  for (int y =0; y<28; y++){
-    for (int x = 0; x<28; x++){
-      Serial.print(graph[x][y]);
-    }
-    Serial.println();
-  }
   dijkstra(graph, 0);
   printPathArray();
 }
@@ -266,6 +188,7 @@ void setNodes()
 
 void dijkstra(int graph[n][n], int src)
 {
+  counter = 0; 
   int dist[n];
   bool sptSet[n];
   int parent[n];
@@ -288,7 +211,7 @@ void dijkstra(int graph[n][n], int src)
         dist[v] = dist[u] + graph[u][v];
       }
   }
-  printSolution(dist, n, parent);
+  printSolution(parent);
 }
 int minDistance(int dist[],
                 bool sptSet[])
@@ -311,13 +234,10 @@ void printPath(int parent[], int j)
     return;
 
   printPath(parent, parent[j]);
-
-
   addToPath(j);
 }
 
-int printSolution(int dist[], int r,
-                  int parent[])
+int printSolution(int parent[])
 {
   int src = 0;
   Serial.print("Path ");
@@ -335,7 +255,7 @@ void addToPath(int j)
 }
 void printPathArray(){
   for (int i = 0; i<counter; i++) {
-    Serial.println(path[i], DEC);
+    Serial.println(String(path[i]));
   }
   
   }
