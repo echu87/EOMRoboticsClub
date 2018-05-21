@@ -2,10 +2,6 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
-#include <IRControl.h>
-#include <MotorControl.h>
-#include <UltrasonicControl.h>
-
 IRControl irL(0);
 IRControl irR(1);
 MotorControl motL(1);
@@ -13,31 +9,34 @@ MotorControl motR(2);
 UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 boolean moveableSpot[4];
-int dir, posX, posY, path[30],counter = 0 ;
- int graph[28][28];
+
+int dir, posX, posY, path[30], counter = 0, nodePos = 0 ;
+int graph[28][28];
+String heccer = "";
+
 void setup()
 {
   Serial.begin(9600);
- 
+
   for (int x = 0; x < n; x++) {
-    
-      if (x + 4 < 28) {
-        graph[x][(x+4)] = 1;
-      }
-       if (x + 1 < 28 && !((x+1) % 4 == 0)  ) {
-        graph[x][(x+1)] = 1;
-      }
-       if (x - 4 >= 0 ) {
-        graph[x][(x - 4)] = 1;
-      }
-        if (x - 1 >= 0  && !(x % 4 == 0) ) {
-        graph[x][(x - 1)] = 1;
-      }
-    
+
+    if (x + 4 < 28) {
+      graph[x][(x + 4)] = 1;
+    }
+    if (x + 1 < 28 && !((x + 1) % 4 == 0)  ) {
+      graph[x][(x + 1)] = 1;
+    }
+    if (x - 4 >= 0 ) {
+      graph[x][(x - 4)] = 1;
+    }
+    if (x - 1 >= 0  && !(x % 4 == 0) ) {
+      graph[x][(x - 1)] = 1;
+    }
+
   }
 
-  for (int y =0; y<28; y++){
-    for (int x = 0; x<28; x++){
+  for (int y = 0; y < 28; y++) {
+    for (int x = 0; x < 28; x++) {
       Serial.print(graph[x][y]);
     }
     Serial.println();
@@ -51,11 +50,11 @@ void setup()
 
 void loop()
 {
-  //  Serial.print(irL.isBlack());
-  //  Serial.print("\t");
-  //  Serial.print(irR.isBlack());
-  //  Serial.print("\t");
-  //  Serial.println(sonic.getDistance());
+  Serial.print(irL.isBlack());
+  Serial.print("\t");
+  Serial.print(irR.isBlack());
+  Serial.print("\t");
+  Serial.println(sonic.getDistance());
 
   centering();
 
@@ -84,8 +83,6 @@ void centering() {
 
   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-
-
     stopMotors();
     node();
   }
@@ -119,6 +116,23 @@ void turnLeft() {
     motL.forward(70);
     motR.forward(0);
   }
+
+
+  switch (dir) {
+    case UP:
+      dir = LEFT;
+      break;
+    case DOWN:
+      dir = RIGHT;
+      break;
+    case RIGHT:
+      dir = UP;
+      break;
+    case LEFT:
+      dir = DOWN;
+  }
+   checkNode();
+
 }
 
 void kickRight() {
@@ -131,7 +145,6 @@ void kickRight() {
 void turnRight() {
   int turnCounter = 0;
   kickRight();
-
   while (turnCounter < 1) {
     motR.forward(0);
     motL.forward(90);
@@ -144,51 +157,96 @@ void turnRight() {
     motL.forward(0);
     motR.forward(70);
   }
+
+  switch (dir) {
+    case UP:
+      dir = RIGHT;
+      break;
+    case DOWN:
+      dir = LEFT;
+      break;
+    case RIGHT:
+      dir = DOWN;
+      break;
+    case LEFT:
+      dir = UP;
+  }
+   checkNode();
+
 }
 
 void node()
 {
- 
+
   switch (dir) {
     case UP: posY++;
+      nodePos += 4;
       break;
     case DOWN: posY--;
+      nodePos -= 4;
       break;
     case RIGHT: posX++;
+      nodePos++;
       break;
-    case LEFT: posX--;
+
+    case LEFT:
+      posX--;
+      nodePos--;
+
   }
-  if (sonic.detect()) {
-    moveableSpot[dir] = false;
-  }
+  checkNode();
+
+  
+
 
 }
-
-
-
-
-
-
-
-
 
 void setNodes()
 {
 
-  dijkstra(graph, 0);
+  dijkstra(graph, nodePos);
   printPathArray();
+
 }
 
 
+void checkNode() {
+  if (sonic.detect()) {
+    switch (dir) {
+      case UP:
+        graph[nodePos][(nodePos + 4)] = 0;
+        graph[(nodePos + 4)][nodePos] = 0;
+        break;
+      case DOWN:
+        graph[nodePos][(nodePos - 4)] = 0;
+        graph[(nodePos - 4)][nodePos] = 0;
+        break;
+      case RIGHT:
+        graph[nodePos][(nodePos + 1)] = 0;
+        graph[(nodePos + 1)][nodePos] = 0;
+        break;
 
+      case LEFT:
+        graph[nodePos][(nodePos - 1)] = 0;
+        graph[(nodePos - 1)][nodePos] = 0;
 
+    }
+  }
+  setNodes();
+}
 
+void straight(){
+    for(int i =0; i< 9000;i++){
+    motL.forward(90);
+    motR.forward(90);
+    }
+  }
 
 
 
 void dijkstra(int graph[n][n], int src)
 {
-  counter = 0; 
+  counter = 0;
   int dist[n];
   bool sptSet[n];
   int parent[n];
@@ -234,31 +292,30 @@ void printPath(int parent[], int j)
     return;
 
   printPath(parent, parent[j]);
+
   addToPath(j);
+
 }
 
 int printSolution(int parent[])
 {
   int src = 0;
   Serial.print("Path ");
-
-
   printPath(parent, 27);
 
 }
 void addToPath(int j)
 {
-  Serial.println(j);
- path[counter] = j;
- counter++;
+  path[counter] = j;
+  counter++;
 
 }
-void printPathArray(){
-  for (int i = 0; i<counter; i++) {
+void printPathArray() {
+  for (int i = 0; i < counter; i++) {
     Serial.println(String(path[i]));
   }
-  
-  }
+
+}
 
 
 
