@@ -312,14 +312,14 @@ void printPath(int parent[], int j)
 
   printPath(parent, parent[j]);
 
-  Serial.print(j);
+  Serial.print("" + j);
 }
 
 int printSolution(int dist[], int r,
                   int parent[])
 {
   int src = 0;
-  Serial.print("G Path ");
+  Serial.print("Path ");
 
 
   printPath(parent, 27);
