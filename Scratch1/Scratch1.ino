@@ -235,17 +235,18 @@ void setNodes()
       if (x + 4 < 28) {
         graph[x][x+4] = 1;
       }
-       if (x + 1 < 28) {
+       if (x + 1 < 28 && !((x+1) % 4 == 0)  ) {
         graph[x][x+1] = 1;
       }
        if (x - 4 >= 0 ) {
         graph[x][x - 4] = 1;
       }
-        if (x - 1 >= 0 ) {
+        if (x - 1 >= 0  && !(x % 4 == 0) ) {
         graph[x][x - 1] = 1;
       }
     
   }
+
   dijkstra(graph, 0);
 }
 
