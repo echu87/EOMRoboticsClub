@@ -312,7 +312,7 @@ void printPath(int parent[], int j)
 
   printPath(parent, parent[j]);
 
-//  Serial.println(j);
+
   addToPath(j);
 }
 
