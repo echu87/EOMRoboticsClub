@@ -13,7 +13,9 @@ MotorControl motR(2);
 UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 boolean moveableSpot[4];
-int dir, posX, posY, path[30],counter = 0 ;
+int dir, posX, posY, path[30],counter = 0, nodePos = 0 ;
+String heccer = "";
+
 void setup()
 {
   Serial.begin(9600);
@@ -124,15 +126,23 @@ void turnRight() {
 
 void node()
 {
+
+  
   clearPresets();
   switch (dir) {
     case UP: posY++;
+    nodePos+4;
       break;
     case DOWN: posY--;
+    nodePos-4;
       break;
     case RIGHT: posX++;
       break;
-    case LEFT: posX--;
+      nodePos+1;
+    case LEFT: 
+    posX--;
+    nodePos-1;
+
   }
   if (sonic.detect()) {
     moveableSpot[dir] = false;
@@ -247,14 +257,11 @@ void setNodes()
     
   }
 
-  for (int y =0; y<28; y++){
-    for (int x = 0; x<28; x++){
-      Serial.print(graph[x][y]);
-    }
-    Serial.println();
-  }
+  
   dijkstra(graph, 0);
-  printPathArray();
+  Serial.print(heccer);
+  //printPathArray();
+  
 }
 
 
@@ -313,7 +320,8 @@ void printPath(int parent[], int j)
   printPath(parent, parent[j]);
 
 
-  addToPath(j);
+  heccer+=j;
+  
 }
 
 int printSolution(int dist[], int r,
@@ -328,14 +336,14 @@ int printSolution(int dist[], int r,
 }
 void addToPath(int j)
 {
-  Serial.println(j);
+  Serial.println(String(j));
  path[counter] = j;
  counter++;
 
 }
 void printPathArray(){
   for (int i = 0; i<counter; i++) {
-    Serial.println(path[i], DEC);
+    Serial.println(String(path[i]));
   }
   
   }
