@@ -231,13 +231,13 @@ void clearPresets(){
           dijkstra(graph,0);
   }
 
-  for(int x = 0; x<n;x++){
-for(int i = 0;i<n;i++){
-  if(i%8==1){
-    graph[x][i]=1;
-  }else{
-    graph[x][i]=0;
-  }
+//  for(int x = 0; x<n;x++){
+//for(int i = 0;i<n;i++){
+//  if(i%8==1){
+//    graph[x][i]=1;
+//  }else{
+//    graph[x][i]=0;
+//  }
   
   
 }
