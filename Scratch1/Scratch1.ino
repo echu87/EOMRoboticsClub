@@ -13,7 +13,7 @@ MotorControl motR(2);
 UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 boolean moveableSpot[4];
-int dir, posX, posY, path[30] ;
+int dir, posX, posY, path[30],counter = 0 ;
 void setup()
 {
   Serial.begin(9600);
@@ -254,7 +254,7 @@ void setNodes()
     Serial.println();
   }
   dijkstra(graph, 0);
-
+  printPathArray();
 }
 
 
@@ -312,7 +312,8 @@ void printPath(int parent[], int j)
 
   printPath(parent, parent[j]);
 
-  Serial.print("" + j);
+  Serial.print(j);
+  addToPath(j);
 }
 
 int printSolution(int dist[], int r,
@@ -325,7 +326,18 @@ int printSolution(int dist[], int r,
   printPath(parent, 27);
 
 }
+void addToPath(int j)
+{
+ path[counter] = j;
+ counter++;
 
+}
+void printPathArray(){
+  for (int i = 0; i<30; i++) {
+    Serial.print("/n "+ path[i]);
+  }
+  
+  }
 
 
 
