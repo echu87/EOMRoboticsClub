@@ -333,8 +333,8 @@ void addToPath(int j)
 
 }
 void printPathArray(){
-  for (int i = 0; i<30; i++) {
-    Serial.print("/n "+ path[i]);
+  for (int i = 0; i<=counter; i++) {
+    Serial.print("\n "+ path[i]);
   }
   
   }
