@@ -334,7 +334,7 @@ void addToPath(int j)
 }
 void printPathArray(){
   for (int i = 0; i<=counter; i++) {
-    Serial.println(String( path[i]));
+    Serial.println(path[i], DEC);
   }
   
   }
