@@ -2,10 +2,6 @@
 #include <MotorControl.h>
 #include <UltrasonicControl.h>
 
-#include <IRControl.h>
-#include <MotorControl.h>
-#include <UltrasonicControl.h>
-
 IRControl irL(0);
 IRControl irR(1);
 MotorControl motL(1);
@@ -13,11 +9,38 @@ MotorControl motR(2);
 UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 boolean moveableSpot[4];
-int dir, posX, posY, path[30],counter = 0 ;
+
+int dir, posX, posY, path[30], counter = 0, nodePos = 0 ;
+int graph[28][28];
+String heccer = "";
+
 void setup()
 {
   Serial.begin(9600);
 
+  for (int x = 0; x < n; x++) {
+
+    if (x + 4 < 28) {
+      graph[x][(x + 4)] = 1;
+    }
+    if (x + 1 < 28 && !((x + 1) % 4 == 0)  ) {
+      graph[x][(x + 1)] = 1;
+    }
+    if (x - 4 >= 0 ) {
+      graph[x][(x - 4)] = 1;
+    }
+    if (x - 1 >= 0  && !(x % 4 == 0) ) {
+      graph[x][(x - 1)] = 1;
+    }
+
+  }
+
+  for (int y = 0; y < 28; y++) {
+    for (int x = 0; x < 28; x++) {
+      Serial.print(graph[x][y]);
+    }
+    Serial.println();
+  }
   dir = UP;
   posX = 0, posY = 0;
   setNodes();
@@ -27,11 +50,11 @@ void setup()
 
 void loop()
 {
-  //  Serial.print(irL.isBlack());
-  //  Serial.print("\t");
-  //  Serial.print(irR.isBlack());
-  //  Serial.print("\t");
-  //  Serial.println(sonic.getDistance());
+  Serial.print(irL.isBlack());
+  Serial.print("\t");
+  Serial.print(irR.isBlack());
+  Serial.print("\t");
+  Serial.println(sonic.getDistance());
 
   centering();
 
@@ -60,8 +83,6 @@ void centering() {
 
   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-
-
     stopMotors();
     node();
   }
@@ -95,6 +116,23 @@ void turnLeft() {
     motL.forward(70);
     motR.forward(0);
   }
+
+
+  switch (dir) {
+    case UP:
+      dir = LEFT;
+      break;
+    case DOWN:
+      dir = RIGHT;
+      break;
+    case RIGHT:
+      dir = UP;
+      break;
+    case LEFT:
+      dir = DOWN;
+  }
+  checkNode();
+
 }
 
 void kickRight() {
@@ -107,7 +145,6 @@ void kickRight() {
 void turnRight() {
   int turnCounter = 0;
   kickRight();
-
   while (turnCounter < 1) {
     motR.forward(0);
     motL.forward(90);
@@ -120,159 +157,188 @@ void turnRight() {
     motL.forward(0);
     motR.forward(70);
   }
+
+  switch (dir) {
+    case UP:
+      dir = RIGHT;
+      break;
+    case DOWN:
+      dir = LEFT;
+      break;
+    case RIGHT:
+      dir = DOWN;
+      break;
+    case LEFT:
+      dir = UP;
+  }
+  checkNode();
+
 }
+
 
 void node()
 {
-  clearPresets();
+
   switch (dir) {
     case UP: posY++;
+      nodePos += 4;
       break;
     case DOWN: posY--;
+      nodePos -= 4;
       break;
     case RIGHT: posX++;
+      nodePos++;
       break;
-    case LEFT: posX--;
-  }
-  if (sonic.detect()) {
-    moveableSpot[dir] = false;
-  }
-  if (!moveableSpot[dir]) {
-    for (int i = 1; i < 4; i++) {
-      if (moveableSpot[i]) {
-        turn(i);
-      }
-    }
-  } else {
-    turnRight();
-    turnRight();
+
+    case LEFT:
+      posX--;
+      nodePos--;
 
   }
-}
 
-void clearPresets() {
-  for (int i = 0; i < 4 ; i++)
+
+  if ((nodePos + 1) == path[0] && dir == RIGHT)
   {
-    moveableSpot[i] = true;
-  }
-  switch (posX) {
-    case 0: moveableSpot[LEFT] = false;
-      break;
-    case 3: moveableSpot[RIGHT] = false;
-  }
-  switch (posY) {
-    case 6: moveableSpot[UP] = false;
-      break;
-    case 0: moveableSpot[DOWN] = false;
+    straight();
   }
 
-}
-
-void turn(int rotation) {
-  rotation = rotation - dir;
-  if (rotation > 0) {
+  else if ((nodePos - 1) == path[0] && dir == RIGHT)
+  {
     turnRight();
-    dir += rotation;
+    turnRight();
   }
-  else if (rotation < 0) {
+
+  else if ((nodePos - 4) == path[0] && dir == RIGHT)
+  {
     turnLeft();
-    dir += rotation;
   }
-  else {
+  else if ((nodePos + 4) == path[0] && dir == RIGHT)
+  {
+    turnRight();
+  }
+
+  else if ((nodePos + 1) == path[0] && dir == LEFT)
+  {
     turnRight();
     turnRight();
-    if (dir + 2 > 3) {
-      dir = dir + 2 - 3;
-    }
-    else
-      dir += 2;
   }
+
+  else if ((nodePos - 1) == path[0] && dir == LEFT)
+  {
+    straight();
+  }
+
+  else if ((nodePos - 4) == path[0] && dir == LEFT)
+  {
+    turnRight();
+  }
+  else if ((nodePos + 4) == path[0] && dir == LEFT)
+  {
+    turnLeft();
+  }
+
+  else if ((nodePos + 1) == path[0] && dir == UP)
+  {
+
+    turnRight();
+
+  }
+
+  else if ((nodePos - 1) == path[0] && dir == UP)
+  {
+    turnLeft();
+  }
+
+  else if ((nodePos - 4) == path[0] && dir == UP)
+  {
+    straight();
+  }
+  else if ((nodePos + 4) == path[0] && dir == UP)
+  {
+    turnRight();
+    turnRight();
+  }
+
+  else if ((nodePos + 1) == path[0] && dir == DOWN)
+  {
+
+    turnLeft();
+
+  }
+
+  else if ((nodePos - 1) == path[0] && dir == DOWN)
+  {
+    turnRight();
+  }
+
+  else if ((nodePos - 4) == path[0] && dir == DOWN)
+  {
+    turnRight();
+    turnRight();
+  }
+  else if ((nodePos + 4) == path[0] && dir == DOWN)
+  {
+    straight();
+  }
+
+
+
+  checkNode();
+
+
+
 
 }
-
-
-
-
 
 void setNodes()
 {
-  int graph[28][28] = {
 
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // Node 0
-   
-   
 
-  };
-  for (int x = 0; x < n; x++) {
-    
-      if (x + 4 < 28) {
-        graph[x][(x+4)] = 1;
-      }
-       if (x + 1 < 28 && !((x+1) % 4 == 0)  ) {
-        graph[x][(x+1)] = 1;
-      }
-       if (x - 4 >= 0 ) {
-        graph[x][(x - 4)] = 1;
-      }
-        if (x - 1 >= 0  && !(x % 4 == 0) ) {
-        graph[x][(x - 1)] = 1;
-      }
-    
-  }
 
-  for (int y =0; y<28; y++){
-    for (int x = 0; x<28; x++){
-      Serial.print(graph[x][y]);
-    }
-    Serial.println();
-  }
-  dijkstra(graph, 0);
-  int sum = 0;
-  for (int i = 0; i<counter; i++)
-  {
-    sum += path[i];
-  }
-  Serial.print(String(sum));
-    printPathArray();
-  
+  dijkstra(graph, nodePos);
+  printPathArray();
+
+
 }
 
 
+void checkNode() {
+  if (sonic.detect()) {
+    switch (dir) {
+      case UP:
+        graph[nodePos][(nodePos + 4)] = 0;
+        graph[(nodePos + 4)][nodePos] = 0;
+        break;
+      case DOWN:
+        graph[nodePos][(nodePos - 4)] = 0;
+        graph[(nodePos - 4)][nodePos] = 0;
+        break;
+      case RIGHT:
+        graph[nodePos][(nodePos + 1)] = 0;
+        graph[(nodePos + 1)][nodePos] = 0;
+        break;
 
+      case LEFT:
+        graph[nodePos][(nodePos - 1)] = 0;
+        graph[(nodePos - 1)][nodePos] = 0;
 
+    }
+  }
+  setNodes();
+}
 
+void straight() {
+  for (int i = 0; i < 1000; i++) {
+    motL.forward(90);
+    motR.forward(90);
+  }
+}
 
 
 
 void dijkstra(int graph[n][n], int src)
 {
+  counter = 0;
   int dist[n];
   bool sptSet[n];
   int parent[n];
@@ -295,7 +361,7 @@ void dijkstra(int graph[n][n], int src)
         dist[v] = dist[u] + graph[u][v];
       }
   }
-  printSolution(dist, n, parent);
+  printSolution(parent);
 }
 int minDistance(int dist[],
                 bool sptSet[])
@@ -319,32 +385,31 @@ void printPath(int parent[], int j)
 
   printPath(parent, parent[j]);
 
-
   addToPath(j);
+
 }
 
-int printSolution(int dist[], int r,
-                  int parent[])
+int printSolution(int parent[])
 {
   int src = 0;
   Serial.print("Path ");
-
-
   printPath(parent, 27);
 
 }
 void addToPath(int j)
 {
- path[counter] = j;
- counter++;
+  path[counter] = j;
+  counter++;
 
 }
-void printPathArray(){
-  for (int i = 0; i<=counter; i++) {
+void printPathArray() {
+  for (int i = 0; i < counter; i++) {
     Serial.println(String(path[i]));
   }
-  
-  }
+
+}
+
+
 
 
 
