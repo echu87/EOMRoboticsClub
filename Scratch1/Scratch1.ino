@@ -131,7 +131,7 @@ void turnLeft() {
     case LEFT:
       dir = DOWN;
   }
-   checkNode();
+  checkNode();
 
 }
 
@@ -171,7 +171,7 @@ void turnRight() {
     case LEFT:
       dir = UP;
   }
-   checkNode();
+  checkNode();
 
 }
 
@@ -197,95 +197,95 @@ void node()
   }
 
 
-  if ((nodePos +1) == path[0] && dir == RIGHT)
+  if ((nodePos + 1) == path[0] && dir == RIGHT)
   {
-   straight();
+    straight();
   }
 
   else if ((nodePos - 1) == path[0] && dir == RIGHT)
   {
-   turnRight();
-   turnRight();
+    turnRight();
+    turnRight();
   }
 
   else if ((nodePos - 4) == path[0] && dir == RIGHT)
   {
-   turnLeft();
+    turnLeft();
   }
   else if ((nodePos + 4) == path[0] && dir == RIGHT)
   {
-   turnRight();
+    turnRight();
   }
 
-  else if ((nodePos +1) == path[0] && dir == LEFT)
+  else if ((nodePos + 1) == path[0] && dir == LEFT)
   {
-   turnRight();
-   turnRight();
+    turnRight();
+    turnRight();
   }
 
   else if ((nodePos - 1) == path[0] && dir == LEFT)
   {
-   straight();
+    straight();
   }
 
   else if ((nodePos - 4) == path[0] && dir == LEFT)
   {
-   turnRight();
+    turnRight();
   }
   else if ((nodePos + 4) == path[0] && dir == LEFT)
   {
-   turnLeft();
+    turnLeft();
   }
 
-  else if ((nodePos +1) == path[0] && dir == UP)
+  else if ((nodePos + 1) == path[0] && dir == UP)
   {
-    
-   turnRight();
-   
+
+    turnRight();
+
   }
 
   else if ((nodePos - 1) == path[0] && dir == UP)
   {
-   turnLeft();
+    turnLeft();
   }
 
   else if ((nodePos - 4) == path[0] && dir == UP)
   {
-   straight();
+    straight();
   }
   else if ((nodePos + 4) == path[0] && dir == UP)
   {
-   turnRight();
-   turnRight();
+    turnRight();
+    turnRight();
   }
 
-  else if ((nodePos +1) == path[0] && dir == DOWN)
+  else if ((nodePos + 1) == path[0] && dir == DOWN)
   {
-    
-   turnLeft();
-   
+
+    turnLeft();
+
   }
 
   else if ((nodePos - 1) == path[0] && dir == DOWN)
   {
-   turnRight();
+    turnRight();
   }
 
   else if ((nodePos - 4) == path[0] && dir == DOWN)
   {
-   turnRight();
-   turnRight();
+    turnRight();
+    turnRight();
   }
   else if ((nodePos + 4) == path[0] && dir == DOWN)
   {
-   straight();
+    straight();
   }
-  
 
-  
+
+
   checkNode();
 
-  
+
 
 
 }
@@ -324,12 +324,12 @@ void checkNode() {
   setNodes();
 }
 
-void straight(){
-    for(int i =0; i< 9000;i++){
+void straight() {
+  for (int i = 0; i < 1000; i++) {
     motL.forward(90);
     motR.forward(90);
-    }
   }
+}
 
 
 
