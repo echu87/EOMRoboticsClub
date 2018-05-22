@@ -175,6 +175,11 @@ void turnRight() {
 
 }
 
+void reverse()
+{
+
+  
+}
 void node()
 {
 
@@ -193,6 +198,28 @@ void node()
       posX--;
       nodePos--;
 
+  }
+  if (dir == "UP") 
+  {
+    motR.forward(90);
+    motL.forward(90);
+  }
+
+  if (dir == "DOWN") 
+  {
+    reverse();
+  }
+
+  if (dir == "RIGHT") 
+  {
+    kickRight();
+    turnRight();
+  }
+
+  if (dir == "LEFT") 
+  {
+    kickLeft();
+    turnLeft();
   }
   checkNode();
 
