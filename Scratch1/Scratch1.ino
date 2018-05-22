@@ -8,11 +8,11 @@ MotorControl motL(1);
 MotorControl motR(2);
 UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
-boolean moveableSpot[4];
 
-int dir, posX, posY, path[30], counter = 0, nodePos = 0 ;
-int graph[28][28];
-String heccer = "";
+
+int dir, path[7], counter = 0, nodePos = 0 ;
+byte graph[28][28];
+
 
 void setup()
 {
@@ -42,7 +42,7 @@ void setup()
     Serial.println();
   }
   dir = UP;
-  posX = 0, posY = 0;
+  
   setNodes();
 
 }
@@ -71,14 +71,14 @@ void centering() {
 
   else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
   {
-    motL.forward(120);  //turn up left wheel to correct to the right
+    motL.forward(90);  //turn up left wheel to correct to the right
     motR.forward(70);
   }
 
   else if ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
   {
     motL.forward(70);  //turn up the right wheel to correct to the left
-    motR.forward(120);
+    motR.forward(90);
   }
 
   else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
@@ -180,18 +180,18 @@ void node()
 {
 
   switch (dir) {
-    case UP: posY++;
+    case UP:
       nodePos += 4;
       break;
-    case DOWN: posY--;
+    case DOWN: 
       nodePos -= 4;
       break;
-    case RIGHT: posX++;
+    case RIGHT: 
       nodePos++;
       break;
 
     case LEFT:
-      posX--;
+      
       nodePos--;
 
   }
@@ -296,7 +296,6 @@ void setNodes()
 
 
   dijkstra(graph, nodePos);
-  printPathArray();
 
 
 }
@@ -336,7 +335,7 @@ void straight() {
 
 
 
-void dijkstra(int graph[n][n], int src)
+void dijkstra(byte graph[n][n], int src)
 {
   counter = 0;
   int dist[n];
@@ -400,12 +399,6 @@ void addToPath(int j)
 {
   path[counter] = j;
   counter++;
-
-}
-void printPathArray() {
-  for (int i = 0; i < counter; i++) {
-    Serial.println(String(path[i]));
-  }
 
 }
 
