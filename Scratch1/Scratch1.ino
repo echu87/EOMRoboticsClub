@@ -175,11 +175,7 @@ void turnRight() {
 
 }
 
-void reverse()
-{
 
-  
-}
 void node()
 {
 
@@ -199,28 +195,94 @@ void node()
       nodePos--;
 
   }
-  if (nodePos-4 == path[0]) 
+
+
+  if ((nodePos +1) == path[0] && dir == RIGHT)
   {
-    motR.forward(90);
-    motL.forward(90);
+   straight();
   }
 
-  if (nodePos+4 == path[0]) 
+  else if ((nodePos - 1) == path[0] && dir == RIGHT)
   {
-    reverse();
+   turnRight();
+   turnRight();
   }
 
-  if (nodePos+1 == path[0]) 
+  else if ((nodePos - 4) == path[0] && dir == RIGHT)
   {
-    kickRight();
-    turnRight();
+   turnLeft();
+  }
+  else if ((nodePos + 4) == path[0] && dir == RIGHT)
+  {
+   turnRight();
   }
 
-  if (nodePos-1 == path[0]) 
+  else if ((nodePos +1) == path[0] && dir == LEFT)
   {
-    kickLeft();
-    turnLeft();
+   turnRight();
+   turnRight();
   }
+
+  else if ((nodePos - 1) == path[0] && dir == LEFT)
+  {
+   straight();
+  }
+
+  else if ((nodePos - 4) == path[0] && dir == LEFT)
+  {
+   turnRight();
+  }
+  else if ((nodePos + 4) == path[0] && dir == LEFT)
+  {
+   turnLeft();
+  }
+
+  else if ((nodePos +1) == path[0] && dir == UP)
+  {
+    
+   turnRight();
+   
+  }
+
+  else if ((nodePos - 1) == path[0] && dir == UP)
+  {
+   turnLeft();
+  }
+
+  else if ((nodePos - 4) == path[0] && dir == UP)
+  {
+   straight();
+  }
+  else if ((nodePos + 4) == path[0] && dir == UP)
+  {
+   turnRight();
+   turnRight();
+  }
+
+  else if ((nodePos +1) == path[0] && dir == DOWN)
+  {
+    
+   turnLeft();
+   
+  }
+
+  else if ((nodePos - 1) == path[0] && dir == DOWN)
+  {
+   turnRight();
+  }
+
+  else if ((nodePos - 4) == path[0] && dir == DOWN)
+  {
+   turnRight();
+   turnRight();
+  }
+  else if ((nodePos + 4) == path[0] && dir == DOWN)
+  {
+   straight();
+  }
+  
+
+  
   checkNode();
 
   
@@ -343,6 +405,8 @@ void printPathArray() {
   }
 
 }
+
+
 
 
 
