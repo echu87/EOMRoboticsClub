@@ -199,24 +199,24 @@ void node()
       nodePos--;
 
   }
-  if (dir == "UP") 
+  if (nodePos-4 == path[0]) 
   {
     motR.forward(90);
     motL.forward(90);
   }
 
-  if (dir == "DOWN") 
+  if (nodePos+4 == path[0]) 
   {
     reverse();
   }
 
-  if (dir == "RIGHT") 
+  if (nodePos+1 == path[0]) 
   {
     kickRight();
     turnRight();
   }
 
-  if (dir == "LEFT") 
+  if (nodePos-1 == path[0]) 
   {
     kickLeft();
     turnLeft();
