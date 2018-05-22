@@ -254,7 +254,14 @@ void setNodes()
     Serial.println();
   }
   dijkstra(graph, 0);
-  printPathArray();
+  int sum = 0;
+  for (int i = 0; i<counter; i++)
+  {
+    sum += path[i];
+  }
+  Serial.print(String(sum));
+    printPathArray();
+  
 }
 
 
