@@ -8,8 +8,6 @@ MotorControl motL(1);
 MotorControl motR(2);
 UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
-
-
 int dir, path[7], counter = 0, nodePos = 0 ;
 byte graph[28][28];
 
@@ -63,25 +61,25 @@ void loop()
 
 void centering() {
 
-  if (irL.isBlack() == 0 && irR.isBlack() == 0)
+  while (irL.isBlack() == 0 && irR.isBlack() == 0)
   {
     motL.forward(90);
     motR.forward(90);
   }
 
-  else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
+  while ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
   {
-    motL.forward(90);  //turn up left wheel to correct to the right
-    motR.forward(70);
-  }
-
-  else if ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
-  {
-    motL.forward(70);  //turn up the right wheel to correct to the left
+    motL.forward(50);  //turn up left wheel to correct to the right
     motR.forward(90);
   }
 
-  else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
+  while ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
+  {
+    motL.forward(90);  //turn up the right wheel to correct to the left
+    motR.forward(50);
+  }
+
+  if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
     stopMotors();
     node();
