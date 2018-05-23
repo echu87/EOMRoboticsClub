@@ -4,12 +4,12 @@
 
 IRControl irL(0);
 IRControl irR(1);
-MotorControl motL(1);
-MotorControl motR(2);
+MotorControl motorRight(1);
+MotorControl motorLeft(2);
 UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 int dir, path[7], counter = 0, nodePos = 0 ;
-byte graph[28][28];
+byte graph[n][n];
 
 
 void setup()
@@ -41,7 +41,7 @@ void setup()
   }
   dir = UP;
   
-  setNodes();
+   dijkstra(graph, nodePos);
 
 }
 
@@ -63,20 +63,20 @@ void centering() {
 
   while (irL.isBlack() == 0 && irR.isBlack() == 0)
   {
-    motL.forward(90);
-    motR.forward(90);
+    motorRight.forward(90);
+    motorLeft.forward(90);
   }
 
   while ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
   {
-    motL.forward(50);  //turn up left wheel to correct to the right
-    motR.forward(90);
+    motorRight.forward(90);  //turn up left wheel to correct to the right
+    motorLeft.forward(70);
   }
 
   while ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
   {
-    motL.forward(90);  //turn up the right wheel to correct to the left
-    motR.forward(50);
+    motorRight.forward(70);  //turn up the right wheel to correct to the left
+    motorLeft.forward(90);
   }
 
   if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
@@ -88,14 +88,14 @@ void centering() {
 }
 
 void stopMotors() {
-  motL.forward(0);
-  motR.forward(0);
+  motorRight.forward(0);
+  motorLeft.forward(0);
 }
 
 void kickLeft() {
   while (irL.isBlack()) {
-    motL.forward(0);
-    motR.forward(90);
+    motorRight.forward(0);
+    motorLeft.forward(90);
   }
 }
 
@@ -103,16 +103,16 @@ void turnLeft() {
   int turnCounter = 0;
   kickLeft();
   while (turnCounter < 2) {
-    motL.forward(0);
-    motR.forward(90);
+    motorRight.forward(0);
+    motorLeft.forward(90);
     if (irL.isBlack()) {
       kickLeft();
       turnCounter++;
     }
   }
   while (!irR.isBlack()) {
-    motL.forward(70);
-    motR.forward(0);
+    motorRight.forward(70);
+    motorLeft.forward(0);
   }
 
 
@@ -135,8 +135,8 @@ void turnLeft() {
 
 void kickRight() {
   while (irR.isBlack()) {
-    motR.forward(0);
-    motL.forward(90);
+    motorLeft.forward(0);
+    motorRight.forward(90);
   }
 }
 
@@ -144,16 +144,16 @@ void turnRight() {
   int turnCounter = 0;
   kickRight();
   while (turnCounter < 1) {
-    motR.forward(0);
-    motL.forward(90);
+    motorLeft.forward(0);
+    motorRight.forward(90);
     if (irR.isBlack()) {
       kickRight();
       turnCounter++;
     }
   }
   while (!irL.isBlack()) {
-    motL.forward(0);
-    motR.forward(70);
+    motorRight.forward(0);
+    motorLeft.forward(70);
   }
 
   switch (dir) {
@@ -194,6 +194,9 @@ void node()
 
   }
 
+
+
+  checkNode();
 
   if ((nodePos + 1) == path[0] && dir == RIGHT)
   {
@@ -247,11 +250,11 @@ void node()
     turnLeft();
   }
 
-  else if ((nodePos - 4) == path[0] && dir == UP)
+  else if ((nodePos + 4) == path[0] && dir == UP)
   {
     straight();
   }
-  else if ((nodePos + 4) == path[0] && dir == UP)
+  else if ((nodePos - 4) == path[0] && dir == UP)
   {
     turnRight();
     turnRight();
@@ -281,22 +284,11 @@ void node()
 
 
 
-  checkNode();
-
-
 
 
 }
 
-void setNodes()
-{
 
-
-
-  dijkstra(graph, nodePos);
-
-
-}
 
 
 void checkNode() {
@@ -321,13 +313,13 @@ void checkNode() {
 
     }
   }
-  setNodes();
+   dijkstra(graph, nodePos);
 }
 
 void straight() {
-  for (int i = 0; i < 1000; i++) {
-    motL.forward(90);
-    motR.forward(90);
+  for (int i = 0; i < 10000; i++) {
+    motorRight.forward(90);
+    motorLeft.forward(90);
   }
 }
 
