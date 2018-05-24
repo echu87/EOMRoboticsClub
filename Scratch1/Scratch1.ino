@@ -59,8 +59,6 @@ void centering(){
   
    else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-
-
     stopMotors();
     node();
   }
