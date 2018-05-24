@@ -53,7 +53,7 @@ void loop()
   Serial.print(irR.isBlack());
   Serial.print("\t");
   Serial.println(sonic.getDistance());
-
+printToPath( );
   centering();
 
 }
@@ -281,7 +281,9 @@ void node()
   else if ((nodePos + 4) == path[0] && dir == DOWN)
   {
     straight();
-  }
+  }else{
+    straight();
+    }
 
 
 
@@ -390,6 +392,11 @@ void addToPath(int j)
 {
   path[counter] = j;
   counter++;
+
+}
+void printToPath( )
+{
+ Serial.print(String(Path[0]) +" "+ String(Path[1])+ " "+ String(Path[2]))
 
 }
 
