@@ -63,26 +63,26 @@ void loop()
 
 void centering() {
 
-  while (irL.isBlack() == 0 && irR.isBlack() == 0)
+  if (irL.isBlack() == 0 && irR.isBlack() == 0)
   {
     motorRight.forward(90);
     motorLeft.forward(90);
   }
 
-  while ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
+  else if ((irL.isBlack() == 1) && (irR.isBlack() == 0)) //moving left
   {
     motorRight.forward(90);  //turn up left wheel to correct to the right
     motorLeft.forward(70);
   }
 
-  while ((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
+  else if((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
   {
     motorRight.forward(70);  //turn up the right wheel to correct to the left
     motorLeft.forward(90);
   }
 
 
-  if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
+  else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
     motorRight.halt();
     motorLeft.halt();
