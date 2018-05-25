@@ -91,124 +91,29 @@ void centering() {
 }
 
 
-//void kickLeft() {
-//  while (irL.isBlack()) {
-//    motorRight.forward(0);
-//    motorLeft.forward(90);
-//  }
-//}
-//
-//void turnLeft() {
-//  int turnCounter = 0;
-//  kickLeft();
-//  while (turnCounter < 2) {
-//    motorRight.reverse(80);
-//    motorLeft.forward(90);
-//    if (irL.isBlack()) {
-//      kickLeft();
-//      turnCounter++;
-//    }
-//  }
-//  while (!irR.isBlack()) {
-//    motorRight.forward(70);
-//    motorLeft.reverse(60);
-//  }
-//
-//
-//  switch (dir) {
-//    case UP:
-//      dir = LEFT;
-//      break;
-//    case DOWN:
-//      dir = RIGHT;
-//      break;
-//    case RIGHT:
-//      dir = UP;
-//      break;
-//    case LEFT:
-//      dir = DOWN;
-//  }
-//  checkNode();
-//
-//}
-//
-//void kickRight() {
-//  while (irR.isBlack()) {
-//    motorLeft.reverse(60);
-//    motorRight.forward(90);
-//  }
-//}
-//
-//void turnRight() {
-//  int turnCounter = 0;
-//  kickRight();
-//  while (turnCounter < 1) {
-//    motorLeft.reverse(60);
-//    motorRight.forward(90);
-//    if (irR.isBlack()) {
-//      kickRight();
-//      turnCounter++;
-//    }
-//  }
-//  while (!irL.isBlack()) {
-//    motorRight.reverse(30);
-//    motorLeft.forward(70);
-//  }
-//
-//  switch (dir) {
-//    case UP:
-//      dir = RIGHT;
-//      break;
-//    case DOWN:
-//      dir = LEFT;
-//      break;
-//    case RIGHT:
-//      dir = DOWN;
-//      break;
-//    case LEFT:
-//      dir = UP;
-//  }
-//  checkNode();
-//
-//}
+void kickLeft() {
+  while (irL.isBlack()) {
+    motorRight.forward(0);
+    motorLeft.forward(90);
+  }
+}
 
 void turnLeft() {
-  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
-    motorRight.reverse(120);
-    motorLeft.reverse(120);
-
+  int turnCounter = 0;
+  kickLeft();
+  while (turnCounter < 2) {
+    motorRight.reverse(80);
+    motorLeft.forward(90);
+    if (irL.isBlack()) {
+      kickLeft();
+      turnCounter++;
+    }
+  }
+  while (!irR.isBlack()) {
+    motorRight.forward(70);
+    motorLeft.reverse(60);
   }
 
-  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
-    motorRight.reverse(150);
-    motorLeft.reverse(150);
-
-  }
-
-  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
-    motorRight.forward(85);
-
-  }
-  while (irL.isBlack() == 0 && irR.isBlack() == 1) {
-    motorRight.forward(85);
-
-
-  }
-  while (irL.isBlack() == 1 && irR.isBlack() == 0) {
-    motorRight.forward(85);
-
-
-  }
-  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
-    motorRight.forward(85);
-
-  }
-
-  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
-    motorRight.forward(85);
-
-
-  }
 
   switch (dir) {
     case UP:
@@ -224,34 +129,32 @@ void turnLeft() {
       dir = DOWN;
   }
   checkNode();
+
+}
+
+void kickRight() {
+  while (irR.isBlack()) {
+    motorLeft.reverse(60);
+    motorRight.forward(90);
+  }
 }
 
 void turnRight() {
-  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
-    motorRight.reverse(140);
-    motorLeft.reverse(140);
-
+  int turnCounter = 0;
+  kickRight();
+  while (turnCounter < 1) {
+    motorLeft.reverse(60);
+    motorRight.forward(90);
+    if (irR.isBlack()) {
+      kickRight();
+      turnCounter++;
+    }
+  }
+  while (!irL.isBlack()) {
+    motorRight.reverse(30);
+    motorLeft.forward(70);
   }
 
-  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
-    motorLeft.forward(79);
-
-  }
-  while (irL.isBlack() == 0 && irR.isBlack() == 1) {
-    motorLeft.forward(79);
-
-
-  }
-  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
-    motorLeft.forward(79);
-
-  }
-
-  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
-    motorLeft.forward(79);
-
-
-  }
   switch (dir) {
     case UP:
       dir = RIGHT;
@@ -266,7 +169,104 @@ void turnRight() {
       dir = UP;
   }
   checkNode();
+
 }
+
+//void turnLeft() {
+//  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+//    motorRight.reverse(120);
+//    motorLeft.reverse(120);
+//
+//  }
+//
+//  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+//    motorRight.reverse(150);
+//    motorLeft.reverse(150);
+//
+//  }
+//
+//  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+//    motorRight.forward(85);
+//
+//  }
+//  while (irL.isBlack() == 0 && irR.isBlack() == 1) {
+//    motorRight.forward(85);
+//
+//
+//  }
+//  while (irL.isBlack() == 1 && irR.isBlack() == 0) {
+//    motorRight.forward(85);
+//
+//
+//  }
+//  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+//    motorRight.forward(85);
+//
+//  }
+//
+//  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+//    motorRight.forward(85);
+//
+//
+//  }
+//
+//  switch (dir) {
+//    case UP:
+//      dir = LEFT;
+//      break;
+//    case DOWN:
+//      dir = RIGHT;
+//      break;
+//    case RIGHT:
+//      dir = UP;
+//      break;
+//    case LEFT:
+//      dir = DOWN;
+//  }
+//  checkNode();
+//}
+//
+//void turnRight() {
+//  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+//    motorRight.reverse(140);
+//    motorLeft.reverse(140);
+//
+//  }
+//
+//  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+//    motorLeft.forward(79);
+//
+//  }
+//  while (irL.isBlack() == 0 && irR.isBlack() == 1) {
+//    motorLeft.forward(79);
+//
+//
+//  }
+//  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+//    motorLeft.forward(79);
+//
+//  }
+//
+//  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+//    motorLeft.forward(79);
+//
+//
+//  }
+//  switch (dir) {
+//    case UP:
+//      dir = RIGHT;
+//      break;
+//    case DOWN:
+//      dir = LEFT;
+//      break;
+//    case RIGHT:
+//      dir = DOWN;
+//      break;
+//    case LEFT:
+//      dir = UP;
+//  }
+//  checkNode();
+//}
 
 
 void node()
