@@ -393,7 +393,7 @@ void checkNode() {
 
   }
   sonicman = sonicman / 5;
-  if (sonicman <  50 && sonicman >  5 ) {
+  if (sonic.detect() ) {
     switch (dir) {
       case UP:
         graph[nodePos][(nodePos + 4)] = 0;
