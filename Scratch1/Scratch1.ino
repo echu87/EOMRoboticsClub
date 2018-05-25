@@ -53,7 +53,9 @@ void loop()
   Serial.print(irR.isBlack());
   Serial.print("\t");
   Serial.println(sonic.getDistance());
+
   pathToPath();
+
   centering();
 
 }
@@ -78,6 +80,7 @@ void centering() {
     motorRight.forward(70);  //turn up the right wheel to correct to the left
     motorLeft.forward(90);
   }
+
 
   if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
@@ -276,11 +279,15 @@ void node()
   else if ((nodePos + 4) == path[0] && dir == DOWN)
   {
     straight();
+
   }
-  else
-  {
+  else{
     straight();
-  }
+    }
+
+
+
+
 
 }
 
@@ -291,7 +298,7 @@ void checkNode() {
 
     }
     sonicman = sonicman/5;
-  if (sonicman <  20){
+  if (sonicman >  15){
     switch (dir) {
       case UP:
         graph[nodePos][(nodePos + 4)] = 0;
@@ -391,12 +398,11 @@ void addToPath(int j)
   counter++;
 
 }
+
 void pathToPath()
 {
  Serial.print("Path :" + String(path[0])+ " " + String(path[1])+ " " + String(path[2]));
 }
-
-
 
 
 
