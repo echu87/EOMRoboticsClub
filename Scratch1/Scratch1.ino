@@ -10,7 +10,7 @@ UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 int dir, path[7], counter = 0, nodePos = 0 ;
 byte graph[n][n];
-int  sonicman =0;
+int  sonicman = 0;
 
 void setup()
 {
@@ -40,7 +40,7 @@ void setup()
     Serial.println();
   }
   dir = UP;
-  
+
   dijkstra(graph, nodePos);
 
 }
@@ -92,29 +92,124 @@ void centering() {
 }
 
 
-void kickLeft() {
-  while (irL.isBlack()) {
-    motorRight.forward(0);
-    motorLeft.forward(90);
-  }
-}
+//void kickLeft() {
+//  while (irL.isBlack()) {
+//    motorRight.forward(0);
+//    motorLeft.forward(90);
+//  }
+//}
+//
+//void turnLeft() {
+//  int turnCounter = 0;
+//  kickLeft();
+//  while (turnCounter < 2) {
+//    motorRight.reverse(80);
+//    motorLeft.forward(90);
+//    if (irL.isBlack()) {
+//      kickLeft();
+//      turnCounter++;
+//    }
+//  }
+//  while (!irR.isBlack()) {
+//    motorRight.forward(70);
+//    motorLeft.reverse(60);
+//  }
+//
+//
+//  switch (dir) {
+//    case UP:
+//      dir = LEFT;
+//      break;
+//    case DOWN:
+//      dir = RIGHT;
+//      break;
+//    case RIGHT:
+//      dir = UP;
+//      break;
+//    case LEFT:
+//      dir = DOWN;
+//  }
+//  checkNode();
+//
+//}
+//
+//void kickRight() {
+//  while (irR.isBlack()) {
+//    motorLeft.reverse(60);
+//    motorRight.forward(90);
+//  }
+//}
+//
+//void turnRight() {
+//  int turnCounter = 0;
+//  kickRight();
+//  while (turnCounter < 1) {
+//    motorLeft.reverse(60);
+//    motorRight.forward(90);
+//    if (irR.isBlack()) {
+//      kickRight();
+//      turnCounter++;
+//    }
+//  }
+//  while (!irL.isBlack()) {
+//    motorRight.reverse(30);
+//    motorLeft.forward(70);
+//  }
+//
+//  switch (dir) {
+//    case UP:
+//      dir = RIGHT;
+//      break;
+//    case DOWN:
+//      dir = LEFT;
+//      break;
+//    case RIGHT:
+//      dir = DOWN;
+//      break;
+//    case LEFT:
+//      dir = UP;
+//  }
+//  checkNode();
+//
+//}
 
 void turnLeft() {
-  int turnCounter = 0;
-  kickLeft();
-  while (turnCounter < 2) {
-    motorRight.reverse(80);
-    motorLeft.forward(90);
-    if (irL.isBlack()) {
-      kickLeft();
-      turnCounter++;
-    }
-  }
-  while (!irR.isBlack()) {
-    motorRight.forward(70);
-    motorLeft.reverse(60);
+  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+    motorRight.reverse(120);
+    motorLeft.reverse(120);
+
   }
 
+  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+    motorRight.reverse(150);
+    motorLeft.reverse(150);
+
+  }
+
+  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+    motorRight.forward(85);
+
+  }
+  while (irL.isBlack() == 0 && irR.isBlack() == 1) {
+    motorRight.forward(85);
+
+
+  }
+  while (irL.isBlack() == 1 && irR.isBlack() == 0) {
+    motorRight.forward(85);
+
+
+  }
+  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+    motorRight.forward(85);
+
+  }
+
+  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+    motorRight.forward(85);
+
+
+  }
 
   switch (dir) {
     case UP:
@@ -130,32 +225,34 @@ void turnLeft() {
       dir = DOWN;
   }
   checkNode();
-
-}
-
-void kickRight() {
-  while (irR.isBlack()) {
-    motorLeft.reverse(60);
-    motorRight.forward(90);
-  }
 }
 
 void turnRight() {
-  int turnCounter = 0;
-  kickRight();
-  while (turnCounter < 1) {
-    motorLeft.reverse(60);
-    motorRight.forward(90);
-    if (irR.isBlack()) {
-      kickRight();
-      turnCounter++;
-    }
-  }
-  while (!irL.isBlack()) {
-    motorRight.reverse(30);
-    motorLeft.forward(70);
+  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+    motorRight.reverse(140);
+    motorLeft.reverse(140);
+
   }
 
+  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+    motorLeft.forward(79);
+
+  }
+  while (irL.isBlack() == 0 && irR.isBlack() == 1) {
+    motorLeft.forward(79);
+
+
+  }
+  while (irL.isBlack() == 1 && irR.isBlack() == 1) {
+    motorLeft.forward(79);
+
+  }
+
+  while (irL.isBlack() == 0 && irR.isBlack() == 0) {
+    motorLeft.forward(79);
+
+
+  }
   switch (dir) {
     case UP:
       dir = RIGHT;
@@ -170,7 +267,6 @@ void turnRight() {
       dir = UP;
   }
   checkNode();
-
 }
 
 
@@ -181,15 +277,15 @@ void node()
     case UP:
       nodePos += 4;
       break;
-    case DOWN: 
+    case DOWN:
       nodePos -= 4;
       break;
-    case RIGHT: 
+    case RIGHT:
       nodePos++;
       break;
 
     case LEFT:
-      
+
       nodePos--;
 
   }
@@ -281,9 +377,9 @@ void node()
     straight();
 
   }
-  else{
+  else {
     straight();
-    }
+  }
 
 
 
@@ -292,13 +388,13 @@ void node()
 }
 
 void checkNode() {
-   sonicman =0;
-  for(int i=0; i<= 5; i++){
-       sonicman += sonic.getDistance();
+  sonicman = 0;
+  for (int i = 0; i <= 5; i++) {
+    sonicman += sonic.getDistance();
 
-    }
-    sonicman = sonicman/5;
-  if (sonicman >  15){
+  }
+  sonicman = sonicman / 5;
+  if (sonicman >  15) {
     switch (dir) {
       case UP:
         graph[nodePos][(nodePos + 4)] = 0;
@@ -319,12 +415,12 @@ void checkNode() {
 
     }
   }
-   dijkstra(graph, nodePos);
+  dijkstra(graph, nodePos);
 }
 
 void straight() {
   int stime = millis();
- while(stime <= stime +100){
+  while (stime <= stime + 100) {
     motorRight.forward(90);
     motorLeft.forward(90);
   }
@@ -401,7 +497,7 @@ void addToPath(int j)
 
 void pathToPath()
 {
- Serial.print("Path :" + String(path[0])+ " " + String(path[1])+ " " + String(path[2]));
+  Serial.print("Path :" + String(path[0]) + " " + String(path[1]) + " " + String(path[2]));
 }
 
 
