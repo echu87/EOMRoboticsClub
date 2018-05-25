@@ -74,18 +74,19 @@ void centering() {
     motorLeft.forward(70);
   }
 
-  else if((irL.isBlack() == 0) && (irR.isBlack() == 1))//moving right
+  else if ((irL.isBlack() == 0) && (irR.isBlack() == 1)) //moving right
   {
     motorRight.forward(70);  //turn up the right wheel to correct to the left
     motorLeft.forward(90);
   }
 
 
-  else if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
+  if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-    motorRight.halt();
-    motorLeft.halt();
-    node();
+    //    motorRight.halt();
+    //    motorLeft.halt();
+    //    node();
+    turnLeft();
   }
 
 }
@@ -98,7 +99,7 @@ void kickLeft() {
   }
 }
 
-void turnLeft() {
+void turnRight() {
   int turnCounter = 0;
   kickLeft();
   while (turnCounter < 2) {
@@ -139,7 +140,7 @@ void kickRight() {
   }
 }
 
-void turnRight() {
+void turnLeft() {
   int turnCounter = 0;
   kickRight();
   while (turnCounter < 1) {
