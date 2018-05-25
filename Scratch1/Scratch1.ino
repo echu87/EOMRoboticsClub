@@ -54,7 +54,6 @@ void loop()
   Serial.print("\t");
   Serial.println(sonic.getDistance());
 
-  pathToPath();
 
   centering();
 
@@ -394,7 +393,7 @@ void checkNode() {
 
   }
   sonicman = sonicman / 5;
-  if (sonicman >  15) {
+  if (sonicman <  50 && sonicman >  5 ) {
     switch (dir) {
       case UP:
         graph[nodePos][(nodePos + 4)] = 0;
@@ -493,11 +492,6 @@ void addToPath(int j)
   path[counter] = j;
   counter++;
 
-}
-
-void pathToPath()
-{
-  Serial.print("Path :" + String(path[0]) + " " + String(path[1]) + " " + String(path[2]));
 }
 
 
