@@ -10,7 +10,7 @@ UltrasonicControl sonic (13, 12);
 const int LEFT = 1, UP = 2, RIGHT = 3, DOWN = 0 , n = 28;
 int dir, path[7], counter = 0, nodePos = 0 ;
 byte graph[n][n];
-
+int  sonicman =0;
 
 void setup()
 {
@@ -41,7 +41,7 @@ void setup()
   }
   dir = UP;
   
-   dijkstra(graph, nodePos);
+  dijkstra(graph, nodePos);
 
 }
 
@@ -53,7 +53,7 @@ void loop()
   Serial.print(irR.isBlack());
   Serial.print("\t");
   Serial.println(sonic.getDistance());
-
+  pathToPath();
   centering();
 
 }
@@ -81,16 +81,13 @@ void centering() {
 
   if ((irL.isBlack() == 1) && (irR.isBlack() == 1))  //hit and intersection and stop!
   {
-    stopMotors();
+    motorRight.halt();
+    motorLeft.halt();
     node();
   }
 
 }
 
-void stopMotors() {
-  motorRight.forward(0);
-  motorLeft.forward(0);
-}
 
 void kickLeft() {
   while (irL.isBlack()) {
@@ -103,7 +100,7 @@ void turnLeft() {
   int turnCounter = 0;
   kickLeft();
   while (turnCounter < 2) {
-    motorRight.forward(0);
+    motorRight.reverse(80);
     motorLeft.forward(90);
     if (irL.isBlack()) {
       kickLeft();
@@ -112,7 +109,7 @@ void turnLeft() {
   }
   while (!irR.isBlack()) {
     motorRight.forward(70);
-    motorLeft.forward(0);
+    motorLeft.reverse(60);
   }
 
 
@@ -135,7 +132,7 @@ void turnLeft() {
 
 void kickRight() {
   while (irR.isBlack()) {
-    motorLeft.forward(0);
+    motorLeft.reverse(60);
     motorRight.forward(90);
   }
 }
@@ -144,7 +141,7 @@ void turnRight() {
   int turnCounter = 0;
   kickRight();
   while (turnCounter < 1) {
-    motorLeft.forward(0);
+    motorLeft.reverse(60);
     motorRight.forward(90);
     if (irR.isBlack()) {
       kickRight();
@@ -152,7 +149,7 @@ void turnRight() {
     }
   }
   while (!irL.isBlack()) {
-    motorRight.forward(0);
+    motorRight.reverse(30);
     motorLeft.forward(70);
   }
 
@@ -193,7 +190,6 @@ void node()
       nodePos--;
 
   }
-
 
 
   checkNode();
@@ -281,18 +277,21 @@ void node()
   {
     straight();
   }
-
-
-
-
+  else
+  {
+    straight();
+  }
 
 }
 
-
-
-
 void checkNode() {
-  if (sonic.detect()) {
+   sonicman =0;
+  for(int i=0; i<= 5; i++){
+       sonicman += sonic.getDistance();
+
+    }
+    sonicman = sonicman/5;
+  if (sonicman <  20){
     switch (dir) {
       case UP:
         graph[nodePos][(nodePos + 4)] = 0;
@@ -317,7 +316,8 @@ void checkNode() {
 }
 
 void straight() {
-  for (int i = 0; i < 10000; i++) {
+  int stime = millis();
+ while(stime <= stime +100){
     motorRight.forward(90);
     motorLeft.forward(90);
   }
@@ -391,6 +391,12 @@ void addToPath(int j)
   counter++;
 
 }
+void pathToPath()
+{
+ Serial.print("Path :" + String(path[0])+ " " + String(path[1])+ " " + String(path[2]));
+}
+
+
 
 
 
